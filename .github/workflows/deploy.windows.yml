@@ -14,7 +14,7 @@ on:
 
 jobs:
   build-electron-app-ubuntu:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         node-version: [13.x, 14.x]
@@ -24,8 +24,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: |
-        npm install --save
+    - name: install dependencies
+      run: |
+       npm install --save
+    - name: build dist
+      run: |
         npm run dist
     - name: Github Release
       uses: elgohr/Github-Release-Action@v3.1
