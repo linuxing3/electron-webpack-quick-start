@@ -3,6 +3,9 @@
 
 name: Electron.js CI
 
+env:
+  GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+
 on:
   push:
     branches: [ master ]
