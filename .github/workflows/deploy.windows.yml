@@ -5,7 +5,7 @@ name: Electron.js CI
 
 env:
   GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-
+  GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 on:
   push:
     branches: [ master ]
@@ -17,11 +17,11 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        node-version: [13.x, 14.x]
+        node-version: [13.x]
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v1.4.2
       with:
         node-version: ${{ matrix.node-version }}
     - name: install dependencies
