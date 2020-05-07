@@ -21,7 +21,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run dist
+    - run: |
+        npm install --save
+        npm run dist
     - name: Github Release
       uses: elgohr/Github-Release-Action@v3.1
       with:
