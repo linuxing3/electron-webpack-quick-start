@@ -11,12 +11,15 @@
     "addon:less": "yarn add less less-loader --dev",
     "addon:sass": "yarn add node-sass sass-loader --dev",
     "dist": "yarn compile && electron-builder",
+    "tailwind": "tailwindcss build .\\src\\renderer\\tailwind.css -o .\\src\\renderer\\taiwind.generated.css",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
   },
   "dependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "source-map-support": "^0.5.16"
+    "react-router-dom": "^5.2.0",
+    "source-map-support": "^0.5.16",
+    "tailwindcss": "^1.4.6"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.10.1",
