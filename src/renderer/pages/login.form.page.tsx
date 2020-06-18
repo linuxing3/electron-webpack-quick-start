@@ -6,7 +6,7 @@ const LoginForm = () => (
       <div className="mb-4">
         <label
           className="block text-gray-700 text-sm font-bold mb-2"
-          for="username"
+          htmlFor="username"
         >
           Username
         </label>
@@ -20,7 +20,7 @@ const LoginForm = () => (
       <div className="mb-6">
         <label
           className="block text-gray-700 text-sm font-bold mb-2"
-          for="password"
+          htmlFor="password"
         >
           Password
         </label>
