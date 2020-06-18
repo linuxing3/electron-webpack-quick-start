@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Link, Switch, Route } from "react-router-dom";
 import LoginForm from "../pages/login.form.page";
 import UserProfile from "../pages/user.profile.age";
 
@@ -67,7 +67,7 @@ const MainPage = () => (
         <Route path="/login">
           <LoginForm />
         </Route>
-        <Route path="/">
+        <Route exact={true} path="/">
           <LoginForm />
         </Route>
       </Switch>

@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev",
+			"problemMatcher": [],
+			"label": "npm: dev",
+			"detail": "electron-webpack dev"
+		},
+		{
+			"type": "npm",
+			"script": "dist",
+			"problemMatcher": [],
+			"label": "npm: dist",
+			"detail": "yarn compile && electron-builder"
+		},
+		{
+			"type": "npm",
+			"script": "compile",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: compile",
+			"detail": "electron-webpack"
+		}
+	]
+}
