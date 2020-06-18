@@ -61,13 +61,13 @@ const MainPage = () => (
       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
       <Switch>
-        <Route path="/">
-          <LoginForm />
-        </Route>
         <Route path="/about">
           <UserProfile />
         </Route>
         <Route path="/login">
+          <LoginForm />
+        </Route>
+        <Route path="/">
           <LoginForm />
         </Route>
       </Switch>

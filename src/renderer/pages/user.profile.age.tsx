@@ -1,7 +1,7 @@
 import React from "react";
 
 const LoginForm = () => (
-  <div className="w-full max-w-xs">
+  <div className="flex mb-4 justify-center py-30">
     <div className="max-w-sm rounded overflow-hidden shadow-lg py-30">
       <img
         className="w-full"
