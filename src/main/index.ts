@@ -1,4 +1,4 @@
-'use strict'
+// 'use strict'
 
 import { app, BrowserWindow } from 'electron'
 import * as path from 'path'
