@@ -30,10 +30,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         yarn dist
-    # - name: Upload dist directory
-    #   env:
-    #     DIST_PATH: "./dist"
-    #   uses: actions/upload-artifact@master
-    #   with:
-    #     name: electron_webpack_app
-    #     path: ${{ env.DIST_PATH }}
+    - name: Upload dist directory
+      env:
+        DIST_PATH: "./dist/*.exe"
+      uses: actions/upload-artifact@v2
+      with:
+        name: electron_webpack_app
+        path: ${{ env.DIST_PATH }}
