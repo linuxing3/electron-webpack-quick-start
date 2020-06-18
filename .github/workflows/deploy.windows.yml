@@ -3,9 +3,6 @@
 
 name: Electron.js CI
 
-env:
-  GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-  GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 on:
   push:
     branches: [ master ]
@@ -28,9 +25,21 @@ jobs:
       run: |
        npm install --save
     - name: build dist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        npm run dist
-    - name: Github Release
-      uses: elgohr/Github-Release-Action@v3.1
+        npm run dist --publish=never
+    - name: Upload dist directory
+      env:
+        DIST_PATH: "./dist"
+      uses: actions/upload-artifact@master
       with:
-        release: electron webpack quick start
+        name: electron webpack app
+        path: ${{ env.DIST_PATH }}
+    - name: Upload build directory
+      env:
+        BUILD_PATH: "./build"
+      uses: actions/upload-artifact@master
+      with:
+        name: electron webpack app
+        path: ${{ env.BUILD_PATH }}
