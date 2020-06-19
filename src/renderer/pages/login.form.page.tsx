@@ -1,6 +1,6 @@
 import React from "react";
 import { PrismaClient } from "@prisma/client";
-import { useForm } from "react-hook-form";
+import useForm  from "../helpers/hooks/userForm";
 
 const prisma = new PrismaClient();
 
@@ -10,9 +10,13 @@ type Inputs = {
   email: string;
 };
 
-const LoginForm = () => {
+const initialValues = {
+  name: "test",
+  email: "test@qq.com",
+  password: "99999999",
+}
 
-  // const { register, handleSubmit, watch, errors } = useForm<Inputs>();
+const LoginForm = () => {
 
   const onSubmit = async (data: any) => {
     await create(data);
@@ -39,20 +43,19 @@ const LoginForm = () => {
     console.log(deletedUser);
   };
 
-  // React.useEffect(() => {
-  //   create({
-  //     name: "electron",
-  //     password: "99999999",
-  //     email: "electron@qq.com"
-  //   })
-  //   return () => {
-  //     // cleanup
-  //   }
-  // }, [])
+  // Hook 
+  const { 
+    values,
+    handleChange,
+    handleSubmit } = useForm({
+      initialValues,
+      // FIXME: { values } or values
+      onSubmit: ({ values }) => onSubmit(values)
+    });
 
   return (
     <div className='flex mb-4 justify-center py-30'>
-      <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'>
+      <form onSubmit={handleSubmit} className='bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'>
         <div className='mb-4'>
           <label
             className='block text-gray-700 text-sm font-bold mb-2'
@@ -62,6 +65,8 @@ const LoginForm = () => {
           <input
             className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             name='name'
+            value={values.name}
+            onChange={handleChange}
             // ref={register({ required: true })}
           ></input>
           {/* {errors.name && <span>This field is required</span>} */}
@@ -73,6 +78,8 @@ const LoginForm = () => {
           <input
             className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             name='email'
+            value={values.email}
+            onChange={handleChange}
             // ref={register({ required: true })}
           ></input>
           {/* {errors.email && <span>This field is required</span>} */}
@@ -86,6 +93,8 @@ const LoginForm = () => {
           <input
             className='shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline'
             name='password'
+            value={values.password}
+            onChange={handleChange}
             // ref={register({ required: true })}
             type='password'
           ></input>
@@ -94,7 +103,7 @@ const LoginForm = () => {
         <div className='flex items-center justify-between'>
           <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-            type='button'
+            type='submit'
           >
             Sign In
           </button>
