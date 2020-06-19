@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { PrismaClient } from "@prisma/client";
-import useForm from "../helpers/hooks/userForm";
+import useForm from "../helpers/hooks/useForm";
 
 const prisma = new PrismaClient();
 
-const LoginForm = () => {
+const initialValues = {
+  name: "test",
+  email: "test@electron.com",
+  password: "99999999"
+};
 
-  let history = useHistory();
-  let { id } = useParams();
+const LoginForm = () => {
+  const history = useHistory();
+  const { id } = useParams();
 
   const update = async (data: any, where: any) => {
     const updatedUser = await prisma.users.update({
@@ -16,28 +21,40 @@ const LoginForm = () => {
       where
     });
     console.log(updatedUser);
-    history.push("/");
+    history.push("/list");
   };
 
   const remove = async (where: any) => {
     const deletedUser = await prisma.users.delete({ where });
     console.log(deletedUser);
-    history.push("/");
+    history.push("/list");
   };
 
+  /**
+   * 通过路由参数获取数据，并设置状态
+   */
   const findOne = async () => {
     const oneUser = await prisma.users.find(id);
-    setitem(oneUser)
+    setitem(oneUser);
   };
 
-  // Hook
-  const [item, setitem] = useState({})
-  
+  // Hooks
+  /**
+   * 定义状态
+   */
+  const [item, setitem] = useState(initialValues);
+
+  /**
+   * 使用状态中的数据，初始化表单
+   */
   const { values, handleChange } = useForm({
     initialValues: item,
     onSubmit: ({ values }) => console.log(values)
   });
 
+  /**
+   * 需要在渲染组件前，执行一次获取数据
+   */
   useEffect(() => {
     findOne();
   }, [id]);

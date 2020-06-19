@@ -1,19 +1,19 @@
 import React from "react";
 import { useHistory  } from "react-router-dom";
 import { PrismaClient } from "@prisma/client";
-import useForm  from "../helpers/hooks/userForm";
+import useForm  from "../helpers/hooks/useForm";
 
 const prisma = new PrismaClient();
 
 const initialValues = {
   name: "test",
-  email: "test@qq.com",
+  email: "test@electron.com",
   password: "99999999",
 }
 
 const LoginForm = () => {
 
-  let history = useHistory();
+  const history = useHistory();
 
   const onSubmit = async (data: any) => {
     await create(data);

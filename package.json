@@ -12,7 +12,7 @@
     "addon:sass": "yarn add node-sass sass-loader --dev",
     "prisma:prepare": "prisma introspect",
     "prisma:generate": "prisma generate",
-    "lint": "eslint --fix",
+    "lint": "eslint --fix **/*/*.ts && eslint --fix **/*/*.tsx",
     "tailwind": "tailwindcss build .\\src\\renderer\\tailwind.css -o .\\src\\renderer\\taiwind.generated.css",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
@@ -32,10 +32,14 @@
     "@types/node": "12.12.6",
     "@types/react": "^16.9.38",
     "@types/react-dom": "^16.9.8",
+    "@typescript-eslint/eslint-plugin": "^3.3.0",
+    "@typescript-eslint/parser": "^3.3.0",
     "electron": "8.2.0",
     "electron-builder": "^22.4.1",
     "electron-webpack": "^2.8.2",
     "electron-webpack-ts": "^4.0.1",
+    "eslint": "^7.2.0",
+    "eslint-plugin-react": "^7.20.0",
     "typescript": "^3.9.5",
     "webpack": "~4.42.1"
   }

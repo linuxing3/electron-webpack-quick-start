@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 const LoginList = () => {
 
-  let history = useHistory();
+  const history = useHistory();
 
   const [list, setList] = React.useState([]);
 

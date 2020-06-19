@@ -25,6 +25,7 @@ jobs:
       run: |
        npm -v
        npm i -g yarn
+       npm i -g eslint
        yarn -v
        yarn
     - name: generate tailwindcss style
@@ -33,10 +34,12 @@ jobs:
     - name: run prisma introspect
       run: |
        yarn run prisma:prepare
-       touch prisma/schema.prisma
     - name: generate prisma client
       run: |
        yarn run prisma:generate
+    - name: run lint fix
+      run: |
+       yarn run lint
     - name: build dist
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

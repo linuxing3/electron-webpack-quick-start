@@ -1,26 +1,26 @@
 module.exports = {
-  /* your base configuration of choice */
-  extends: "eslint:recommended",
-  rules: {
-    "no-unused-vars": ["off"],
-    "no-console": ["off"],
-    "no-trailing-spaces": [
-      "warn",
-      { skipBlankLines: true, ignoreComments: true }
-    ]
-  },
-  parserOptions: {
-    sourceType: "module",
-    ecmaVersion: 6,
-    ecmaFeatures: {
-      jsx: true
-    }
-  },
   env: {
     browser: true,
+    es2020: true,
     node: true
   },
-  globals: {
-    __static: true
-  }
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  rules: {
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off"
+  },
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true
+    },
+    ecmaVersion: 11,
+    sourceType: "module"
+  },
+  plugins: ["react", "@typescript-eslint"]
 };
