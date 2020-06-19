@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model document {
+  content    String?  @default("deno with denodb")
+  created_at DateTime @default(now())
+  id         Int      @default(autoincrement()) @id
+  title      String?  @default("deno")
+  updated_at DateTime @default(now())
+}
+
+model documents {
+  created_at DateTime? @default(now())
+  document   String?
+  id         Int       @default(autoincrement()) @id
+  title      String?
+  updated_at DateTime? @default(now())
+}
+
+model games {
+  created_at  DateTime? @default(now())
+  description String?
+  id          Int       @default(autoincrement()) @id
+  name        String?
+  pid         String
+  timestramp  String?
+  updated_at  DateTime? @default(now())
+}
+
+model user {
+  created_at DateTime @default(now())
+  email      String?  @default("xingwenju@gmail.com")
+  id         Int      @default(autoincrement()) @id
+  name       String?  @default("xingwenju")
+  password   String?  @default("20090909")
+  updated_at DateTime @default(now())
+}
+
+model users {
+  created_at DateTime? @default(now())
+  email      String?
+  id         Int       @default(autoincrement()) @id
+  name       String
+  password   String
+  updated_at DateTime? @default(now())
+}

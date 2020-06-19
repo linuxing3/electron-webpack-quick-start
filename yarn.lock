@@ -944,6 +944,18 @@
     postcss "7.0.32"
     purgecss "^2.3.0"
 
+"@prisma/cli@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.0.1.tgz#ae67f3485c7c843c7de34926bd3e85379ee2e511"
+  integrity sha512-AXSvuXzmI8CfTk3MOgiDMAFCqw+r2QKV64WHJ2B6Z0Mpb+PihsdD6BCteWDu2GlGwNNluNDYKlfLkXxgvzH2mw==
+
+"@prisma/client@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.0.1.tgz#f0e9a52424c92511e8bd87b7358802001400c849"
+  integrity sha512-9TaIp72H/mhTkkUUQ3bE+1NTWfwJcanAdfUt6dDH0G57r1suTyz0YUbhCOH4hJrtCADumIi9bvGw+wAk1CstaA==
+  dependencies:
+    pkg-up "^3.1.0"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -5392,6 +5404,13 @@ pkg-up@^2.0.0:
   dependencies:
     find-up "^2.1.0"
 
+pkg-up@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/pkg-up/-/pkg-up-3.1.0.tgz#100ec235cc150e4fd42519412596a28512a0def5"
+  integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
+  dependencies:
+    find-up "^3.0.0"
+
 portfinder@^1.0.25:
   version "1.0.25"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.25.tgz#254fd337ffba869f4b9d37edc298059cb4d35eca"
@@ -5737,6 +5756,11 @@ react-dom@^16.13.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.19.1"
+
+react-hook-form@^5.7.2:
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-5.7.2.tgz#a84e259e5d37dd30949af4f79c4dac31101b79ac"
+  integrity sha512-bJvY348vayIvEUmSK7Fvea/NgqbT2racA2IbnJz/aPlQ3GBtaTeDITH6rtCa6y++obZzG6E3Q8VuoXPir7QYUg==
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"

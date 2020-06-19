@@ -1,6 +1,37 @@
 import React from "react";
+import { PrismaClient } from '@prisma/client';
+ 
+const prisma = new PrismaClient();
 
-const LoginForm = () => (
+const LoginForm = () => {
+
+  const create = async (data: any) => {
+    // Create a new user
+    const newUser = await prisma.users.create({
+      data
+    })
+  }
+
+  const update = async (data: any, where: any) => {
+    const updatedUser = await prisma.users.update({
+      data,
+      where,
+    })
+  }
+
+  const findAll = async () => {
+    const allUsers = await prisma.users.findMany()
+  }
+
+  const findOne = async (where: any) => {
+    const user = await prisma.users.findOne({ where })
+  }
+
+  const remove = async (where: any) => {
+    const deletedUser = await prisma.users.delete({ where })
+  }
+
+  return (
   <div className="flex mb-4 justify-center py-30">
     <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4">
       <div className="mb-4">
@@ -48,5 +79,5 @@ const LoginForm = () => (
       </div>
     </form>
   </div>
-);
+)};
 export default LoginForm;
