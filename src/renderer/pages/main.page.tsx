@@ -1,7 +1,9 @@
 import React from "react";
 import { HashRouter as Router, Link, Switch, Route } from "react-router-dom";
+
 import LoginForm from "../pages/login.form.page";
-import UserProfile from "../pages/user.profile.age";
+import UserProfile from "../pages/user.profile.page";
+import UserList from "../pages/user.list.page";
 
 const MainPage = () => (
   <Router>
@@ -40,14 +42,19 @@ const MainPage = () => (
                 Home
               </div>
             </Link>
-            <Link to="/about">
+            <Link to="/profile">
               <div className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                About
+                Profile
+              </div>
+            </Link>
+            <Link to="/list">
+              <div className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                List
               </div>
             </Link>
             <Link to="/login">
               <div className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-                Users
+                Login
               </div>
             </Link>
           </div>
@@ -61,8 +68,11 @@ const MainPage = () => (
       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
       <Switch>
-        <Route path="/about">
+        <Route path="/profile">
           <UserProfile />
+        </Route>
+        <Route path="/list">
+          <UserList />
         </Route>
         <Route path="/login">
           <LoginForm />

@@ -1,35 +1,53 @@
 import React from "react";
 import { PrismaClient } from '@prisma/client';
+import { useForm } from "react-hook-form";
  
 const prisma = new PrismaClient();
 
+type Inputs = {
+  user: string,
+  password: string,
+  email: string,
+};
+
 const LoginForm = () => {
+
+  // const { register, handleSubmit, watch, errors } = useForm<Inputs>();
+  const onSubmit = async (data: any) => {
+    await create(data);
+  };
 
   const create = async (data: any) => {
     // Create a new user
     const newUser = await prisma.users.create({
       data
     })
+    console.log(newUser);
   }
 
   const update = async (data: any, where: any) => {
     const updatedUser = await prisma.users.update({
       data,
       where,
-    })
-  }
-
-  const findAll = async () => {
-    const allUsers = await prisma.users.findMany()
-  }
-
-  const findOne = async (where: any) => {
-    const user = await prisma.users.findOne({ where })
+    });
+    console.log(updatedUser);
   }
 
   const remove = async (where: any) => {
     const deletedUser = await prisma.users.delete({ where })
+    console.log(deletedUser);
   }
+
+  // React.useEffect(() => {
+  //   create({
+  //     name: "electron",
+  //     password: "99999999",
+  //     email: "electron@qq.com"
+  //   })
+  //   return () => {
+  //     // cleanup
+  //   }
+  // }, [])
 
   return (
   <div className="flex mb-4 justify-center py-30">
@@ -37,16 +55,29 @@ const LoginForm = () => {
       <div className="mb-4">
         <label
           className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="username"
+          htmlFor="name"
         >
           Username
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="username"
-          type="text"
-          placeholder="Username"
+          name="name"
+          // ref={register({ required: true })}
         ></input>
+        {/* {errors.name && <span>This field is required</span>} */}
+      </div>
+      <div>
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+        >
+          Email
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="email"
+          // ref={register({ required: true })}
+        ></input>
+        {/* {errors.email && <span>This field is required</span>} */}
       </div>
       <div className="mb-6">
         <label
@@ -57,11 +88,11 @@ const LoginForm = () => {
         </label>
         <input
           className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          id="password"
+          name="password"
+          // ref={register({ required: true })}
           type="password"
-          placeholder="******************"
         ></input>
-        <p className="text-red-500 text-xs italic">Please choose a password.</p>
+        {/* {errors.password && <span>This field is required</span>} */}
       </div>
       <div className="flex items-center justify-between">
         <button
@@ -71,8 +102,8 @@ const LoginForm = () => {
           Sign In
         </button>
         <a
-          className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-          href="#"
+          className="px-5 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+          href="/recover"
         >
           Forgot Password?
         </a>
