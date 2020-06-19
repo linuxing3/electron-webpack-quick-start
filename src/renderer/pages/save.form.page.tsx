@@ -33,8 +33,8 @@ const LoginForm = () => {
   /**
    * 通过路由参数获取数据，并设置状态
    */
-  const findOne = async () => {
-    const oneUser = await prisma.users.find(id);
+  const findOne = async (where: any) => {
+    const oneUser = await prisma.users.findOne({ where });
     setitem(oneUser);
   };
 
@@ -56,7 +56,7 @@ const LoginForm = () => {
    * 需要在渲染组件前，执行一次获取数据
    */
   useEffect(() => {
-    findOne();
+    findOne({ id });
   }, [id]);
 
   return (
