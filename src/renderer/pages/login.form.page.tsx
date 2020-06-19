@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory  } from "react-router-dom";
 import { PrismaClient } from "@prisma/client";
 import useForm  from "../helpers/hooks/userForm";
 
@@ -27,6 +28,7 @@ const LoginForm = () => {
     const newUser = await prisma.users.create({
       data
     });
+    if (newUser) history.push('/list');
     console.log(newUser);
   };
 
@@ -52,6 +54,8 @@ const LoginForm = () => {
       // FIXME: { values } or values
       onSubmit: ({ values }) => onSubmit(values)
     });
+
+  let history = useHistory();
 
   return (
     <div className='flex mb-4 justify-center py-30'>

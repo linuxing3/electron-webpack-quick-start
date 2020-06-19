@@ -1,5 +1,5 @@
 import React from "react";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";  
 
 const prisma = new PrismaClient();
 
@@ -20,7 +20,7 @@ const LoginList = () => {
     <div className='flex flex-wrap mb-4 justify-center py-30'>
       {list.map((item) => {
         return (
-          <div className='max-full-xs rounded overflow-hidden shadow-lg py-30'>
+          <div key={item.id} className='max-full-xs rounded overflow-hidden shadow-lg py-30'>
             <img
               className='w-full'
               src='https://tailwindcss.com/img/card-top.jpg'
