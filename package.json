@@ -19,7 +19,7 @@
     "@prisma/client": "2.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-hook-form": "^5.7.2",
+    "react-hook-form": "6.0.0-rc.4",
     "react-router-dom": "^5.2.0",
     "source-map-support": "^0.5.16",
     "tailwindcss": "^1.4.6"

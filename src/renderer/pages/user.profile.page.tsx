@@ -1,11 +1,10 @@
 import React from "react";
-import { PrismaClient } from '@prisma/client';
- 
+import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
 const LoginProfile = () => {
-
-  const [ user, setUser ] = React.useState({
+  const [user, setUser] = React.useState({
     name: "",
     password: "",
     email: ""
@@ -23,8 +22,8 @@ const LoginProfile = () => {
   };
 
   React.useEffect(() => {
-    findOne({ id: 1 })
-  },[])
+    findOne({ id: 1 });
+  }, []);
 
   return (
     <div className='flex mb-4 justify-center py-30'>
@@ -36,9 +35,7 @@ const LoginProfile = () => {
         />
         <div className='px-6 py-4'>
           <div className='font-bold text-xl mb-2'>{user.name}</div>
-          <p className='text-gray-700 text-base'>
-            {user.email}
-          </p>
+          <p className='text-gray-700 text-base'>{user.email}</p>
         </div>
         <div className='px-6 py-4 flex items-center'>
           <img
