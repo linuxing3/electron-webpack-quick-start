@@ -10,10 +10,10 @@ const LoginProfile = () => {
     email: ""
   });
 
-  const findAll = async () => {
-    const allUsers = await prisma.users.findMany();
-    console.log(allUsers);
-  };
+  // const findAll = async () => {
+  //   const allUsers = await prisma.users.findMany();
+  //   console.log(allUsers);
+  // };
 
   const findOne = async (where: any) => {
     const foundUser = await prisma.users.findOne({ where });

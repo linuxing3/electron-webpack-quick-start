@@ -12,6 +12,7 @@
     "addon:sass": "yarn add node-sass sass-loader --dev",
     "prisma:prepare": "prisma introspect",
     "prisma:generate": "prisma generate",
+    "lint": "eslint --fix",
     "tailwind": "tailwindcss build .\\src\\renderer\\tailwind.css -o .\\src\\renderer\\taiwind.generated.css",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"

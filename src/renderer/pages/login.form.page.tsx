@@ -5,12 +5,6 @@ import useForm  from "../helpers/hooks/userForm";
 
 const prisma = new PrismaClient();
 
-type Inputs = {
-  user: string;
-  password: string;
-  email: string;
-};
-
 const initialValues = {
   name: "test",
   email: "test@qq.com",
@@ -18,6 +12,8 @@ const initialValues = {
 }
 
 const LoginForm = () => {
+
+  let history = useHistory();
 
   const onSubmit = async (data: any) => {
     await create(data);
@@ -32,18 +28,6 @@ const LoginForm = () => {
     console.log(newUser);
   };
 
-  const update = async (data: any, where: any) => {
-    const updatedUser = await prisma.users.update({
-      data,
-      where
-    });
-    console.log(updatedUser);
-  };
-
-  const remove = async (where: any) => {
-    const deletedUser = await prisma.users.delete({ where });
-    console.log(deletedUser);
-  };
 
   // Hook 
   const { 
@@ -51,11 +35,10 @@ const LoginForm = () => {
     handleChange,
     handleSubmit } = useForm({
       initialValues,
-      // FIXME: { values } or values
       onSubmit: ({ values }) => onSubmit(values)
     });
 
-  let history = useHistory();
+  
 
   return (
     <div className='flex mb-4 justify-center py-30'>

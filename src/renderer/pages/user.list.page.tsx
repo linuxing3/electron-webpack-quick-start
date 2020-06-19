@@ -1,15 +1,23 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { PrismaClient } from "@prisma/client";  
 
 const prisma = new PrismaClient();
 
 const LoginList = () => {
+
+  let history = useHistory();
+
   const [list, setList] = React.useState([]);
 
   const findAll = async () => {
     const allUsers = await prisma.users.findMany();
     setList(allUsers);
     console.log(allUsers);
+  };
+
+  const showDetail = (id: any) => {
+    history.push(`/save/${id}`);
   };
 
   React.useEffect(() => {
@@ -20,7 +28,7 @@ const LoginList = () => {
     <div className='flex flex-wrap mb-4 justify-center py-30'>
       {list.map((item) => {
         return (
-          <div key={item.id} className='max-full-xs rounded overflow-hidden shadow-lg py-30'>
+          <div onClick={() => showDetail(item.id)} key={item.id} className='max-full-xs rounded overflow-hidden shadow-lg py-30'>
             <img
               className='w-full'
               src='https://tailwindcss.com/img/card-top.jpg'

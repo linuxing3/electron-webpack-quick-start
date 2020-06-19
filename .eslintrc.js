@@ -1,10 +1,20 @@
 module.exports = {
   /* your base configuration of choice */
-  extends: 'eslint:recommended',
-
-  parser: 'babel-eslint',
+  extends: "eslint:recommended",
+  rules: {
+    "no-unused-vars": ["off"],
+    "no-console": ["off"],
+    "no-trailing-spaces": [
+      "warn",
+      { skipBlankLines: true, ignoreComments: true }
+    ]
+  },
   parserOptions: {
-    sourceType: 'module'
+    sourceType: "module",
+    ecmaVersion: 6,
+    ecmaFeatures: {
+      jsx: true
+    }
   },
   env: {
     browser: true,
@@ -13,4 +23,4 @@ module.exports = {
   globals: {
     __static: true
   }
-}
+};
