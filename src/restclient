@@ -1,0 +1,24 @@
+http://127.0.0.1:8000/api/v1/users/1?table=users
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Inhpbmd3ZW5qdSIsImVtYWlsIjoieGluZ3dlbmp1QGdtYWlsLmNvbSJ9.auCidFeJ7foumlVGCws7Aqlzk-RpqLlhO9NcHmzXpbI
+
+###
+
+POST http://127.0.0.1:8000/auth/register
+content-type: application/json
+
+{
+    "name": "xingwenju",
+    "password": "20090909",
+    "email": "xingwenju@gmail.com"
+}
+
+###
+
+POST http://127.0.0.1:8000/auth/login
+content-type: application/json
+
+{
+    "name": "xingwenju",
+    "password": "20090909",
+    "email": "xingwenju@gmail.com"
+}

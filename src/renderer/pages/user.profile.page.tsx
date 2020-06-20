@@ -3,6 +3,7 @@ import { GlobalContext } from "./main.page";
 import axios from "../helpers/axios.client";
 
 const LoginProfile = () => {
+
   const context = React.useContext(GlobalContext);
   console.log(context);
   const [table] = React.useState(context.state.table);
@@ -19,9 +20,9 @@ const LoginProfile = () => {
   const findOne = async (where: any) => {
     const url =
     table === "users"
-      ? `/${table}/${where.id}?table=${table}`
-      : `/${table}/${where.id}`;
-    const response = await axios.get(url);
+      ? `/api/v1/${table}/${where.id}?table=${table}`
+      : `/api/v1/${table}/${where.id}`;
+    const response = await axios.get(url, {});
     if (response.status !== 200) {
       console.log("No item found!")
     }

@@ -1,19 +1,16 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
-import { GlobalContext } from "./main.page";
 import axios from "../helpers/axios.client";
 
 const initialValues = {
-  name: "test",
-  email: "test@electron.com",
-  password: "99999999"
+  name: "xingwenju",
+  email: "xingwenju@gmail.com",
+  password: "20090909"
 };
 
 const LoginForm = () => {
   const history = useHistory();
-  const context = React.useContext(GlobalContext);
-  const [table] = React.useState(context.state.table);
 
   const onSubmit = async (data: any) => {
     await create(data);
@@ -21,11 +18,25 @@ const LoginForm = () => {
 
   const create = async (data: any) => {
     // Create a new user
-    const url = table === "users" ? `/${table}?table=${table}` : `/${table}`;
-    const response = await axios.post(url, data);
-    const newItem = await response.data.data;
-    if (newItem) history.push("/list");
-    console.log(newItem);
+    try {
+      const response = await axios.post(`/auth/register`, data);
+      const user = await response.data.user;
+      if (user) { 
+        history.push("/login");
+        console.log(user);
+      }
+    } catch (error) {
+      const response = await axios.post(`/auth/login`, data);
+      if (response.status === 200) {
+        const token = response.data.data.accessToken;
+        if (token) {
+          window.localStorage.setItem("token", 'bearer '+ token);
+          history.push("/profile");
+        }
+      } else {
+        console.log(response.status);
+      }
+    }
   };
 
   // Hook

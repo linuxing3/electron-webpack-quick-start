@@ -1,91 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
-import { GlobalContext } from "./main.page";
+import skipFields from "../helpers/skipFields";
 import axios from "../helpers/axios.client";
+import { GlobalContext } from "./main.page";
 
 const SaveForm = () => {
-  const { id } = useParams();
   const history = useHistory();
   const context = React.useContext(GlobalContext);
   const [table] = React.useState(context.state.table);
+  const currentItem = JSON.parse(window.localStorage.getItem("currentItem"));
 
   const update = async (data: any, where: any) => {
     const url =
       table === "users"
-        ? `/${table}/${where.id}?table=${table}`
-        : `/${table}/${where.id}`;
-    const response = await axios(url, {
+        ? `/api/v1/${table}/${where.id}?table=${table}`
+        : `/api/v1/${table}/${where.id}`;
+    await axios(url, {
       method: "put",
-      data: JSON.stringify(data)
+      data: JSON.stringify(skipFields(data))
     });
-    if (response.status !== undefined) {
-      const currentItem = await response.data.data;
-      console.log(currentItem);
-      setitem({});
-      history.push('/list')
-    }
+    history.push('/list')
   };
 
   const remove = async (where: any) => {
     const url =
       table === "users"
-        ? `/${table}/${where.id}?table=${table}`
-        : `/${table}/${where.id}`;
-    const response = await axios(url, {
+        ? `/api/v1/${table}/${where.id}?table=${table}`
+        : `/api/v1/${table}/${where.id}`;
+    await axios(url, {
       method: "delete"
     });
-    if (response.status !== undefined) {
-      const result= await response.data.msg;
-      console.log(result);
-      setitem({});
-      history.push('/list')
-    }
+    history.push('/list')
   };
-
-  /**
-   * 通过路由参数获取数据，并设置状态
-   */
-  const findOne = async (where: any) => {
-    const url =
-      table === "users"
-        ? `/${table}/${where.id}?table=${table}`
-        : `/${table}/${where.id}`;
-    const response = await axios(url);
-    if (response.status !== 200) {
-      setitem({});
-    }
-    const data = await response.data.data;
-    // delete keys
-    const { updated_at, created_at, ...rest } = data;
-    console.log(updated_at);
-    console.log(created_at);
-    setitem({ ... rest });
-  };
-
-  // Hooks
-  /**
-   * 定义状态
-   */
-  const [item, setitem] = useState({});
 
   /**
    * 使用状态中的数据，初始化表单
    */
   const { values, handleChange } = useForm({
-    initialValues: item,
+    initialValues: { ...currentItem },
     onSubmit: ({ values }) => console.log(values)
   });
-
-  /**
-   * 需要在渲染组件前，执行一次获取数据
-   */
-  useEffect(() => {
-    findOne({ id });
-    return () => {
-      // clear stuff
-    }
-  }, []);
 
   return (
     <div className='flex mb-4 justify-center py-30'>

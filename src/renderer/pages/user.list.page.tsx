@@ -15,8 +15,8 @@ const LoginList = () => {
   const findAll = async () => {
     const url =
     table === "users"
-      ? `/${table}?table=${table}`
-      : `/${table}`;
+      ? `/api/v1/${table}?table=${table}`
+      : `/api/v1/${table}`;
     const response = await axios.get(url);
     if (response.status !== 200) {
       setList([]);
@@ -27,6 +27,7 @@ const LoginList = () => {
 
   const showDetail = (id: any) => {
     const selectedItem = list.filter((i) => i.id === id);
+    window.localStorage.setItem("currentItem", JSON.stringify(selectedItem[0]));
     history.push(`/save/${id}`, { ...selectedItem });
   };
 

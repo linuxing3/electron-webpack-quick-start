@@ -2,9 +2,8 @@ import axios from "axios";
 // import { stringify } from 'qs';
 
 // const BASE_URL = "http://xunqinji.top:9007/api/v1";
-const BASE_URL = "http://127.0.0.1:8000/api/v1";
-const TOKEN =
-  "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Inhpbmd3ZW5qdSIsImVtYWlsIjoieGluZ3dlbmp1QGdtYWlsLmNvbSJ9.auCidFeJ7foumlVGCws7Aqlzk-RpqLlhO9NcHmzXpbI";
+const BASE_URL = "http://127.0.0.1:8000";
+const TOKEN = String(window.localStorage.getItem("token")) || "";
 
 const instance = axios.create({
   baseURL: BASE_URL
