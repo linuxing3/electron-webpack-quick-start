@@ -29,6 +29,7 @@ const LoginForm = () => {
       headers: {
         'Authorizatioin': token
       },
+      credentials: 'include',
       mode: 'no-cors',
       body: data
     });

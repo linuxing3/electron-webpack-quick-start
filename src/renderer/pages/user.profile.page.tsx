@@ -24,7 +24,8 @@ const LoginProfile = () => {
       mode: "no-cors",
       headers: {
         'Authorization': token
-      }
+      },
+      credentials: 'include' 
     });
     if (response.status !== 200) {
       setItem({});

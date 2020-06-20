@@ -6,7 +6,6 @@ import { GlobalContext } from "./main.page";
 const BASE_URL = "http://xunqinji.top:9007/api/v1";
 
 const LoginList = () => {
-
   const context = React.useContext(GlobalContext);
 
   const [list, setList] = React.useState([]);
@@ -17,30 +16,38 @@ const LoginList = () => {
 
   const findAll = async () => {
     const url = `${BASE_URL}/${table}?table=${table}`;
-    const response = await fetch(url, { mode: 'no-cors', headers: {
-      'Authorizatioin': token
-    }});
+    const response = await fetch(url, {
+      mode: "no-cors",
+      headers: {
+        Authorizatioin: token
+      },
+      credentials: "include"
+    });
     if (response.status !== 200) {
-      setList([]);    
+      setList([]);
     }
-    const data =  await response.json();
+    const data = await response.json();
     setList(data);
   };
 
   const showDetail = (id: any) => {
-    const selectedItem = list.filter(i => i.id === id);
+    const selectedItem = list.filter((i) => i.id === id);
     history.push(`/save/${id}`, { ...selectedItem });
   };
 
   React.useEffect(() => {
     findAll();
-  }, [ table ]);
+  }, [table]);
 
   return (
     <div className='flex flex-wrap mb-4 justify-center py-30'>
       {list.map((item) => {
         return (
-          <div onClick={() => showDetail(item.id)} key={item.id} className='max-full-xs rounded overflow-hidden shadow-lg py-30'>
+          <div
+            onClick={() => showDetail(item.id)}
+            key={item.id}
+            className='max-full-xs rounded overflow-hidden shadow-lg py-30'
+          >
             <img
               className='w-full'
               src='https://tailwindcss.com/img/card-top.jpg'
