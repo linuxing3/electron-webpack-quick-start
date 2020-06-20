@@ -1,13 +1,11 @@
 import React from "react";
 import { GlobalContext } from "./main.page";
-
-const BASE_URL = "http://xunqinji.top:9007/api/v1";
+import axios from "../helpers/axios.client";
 
 const LoginProfile = () => {
   const context = React.useContext(GlobalContext);
   console.log(context);
   const [table] = React.useState(context.state.table);
-  const [token] = React.useState(context.state.token);
 
   const [item, setItem] = React.useState({
     name: "",
@@ -19,18 +17,15 @@ const LoginProfile = () => {
    * 通过路由参数获取数据，并设置状态
    */
   const findOne = async (where: any) => {
-    const url = `${BASE_URL}/${table}/${where.id}?table=${table}`;
-    const response = await fetch(url, {
-      mode: "no-cors",
-      headers: {
-        'Authorization': token
-      },
-      credentials: 'include' 
-    });
+    const url =
+    table === "users"
+      ? `/${table}/${where.id}?table=${table}`
+      : `/${table}/${where.id}`;
+    const response = await axios.get(url);
     if (response.status !== 200) {
-      setItem({});
+      console.log("No item found!")
     }
-    const currentItem = await response.json();
+    const currentItem = await response.data.data;
     setItem(currentItem);
   };
 

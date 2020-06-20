@@ -2,44 +2,39 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
 import { GlobalContext } from "./main.page";
-
-const BASE_URL = "http://xunqinji.top:9007/api/v1";
+import axios from "../helpers/axios.client";
 
 const SaveForm = () => {
   const { id } = useParams();
   const context = React.useContext(GlobalContext);
   const [table] = React.useState(context.state.table);
-  const [token] = React.useState(context.state.token);
 
   const update = async (data: any, where: any) => {
-    const url = `${BASE_URL}/${table}/${where.id}`;
-    const response = await fetch(url, {
+    const url =
+      table === "users"
+        ? `/${table}/${where.id}?table=${table}`
+        : `/${table}/${where.id}`;
+    const response = await axios(url, {
       method: "PUT",
-      headers: {
-        'Authorizatioin': token
-      },
-      credentials: 'include',
-      mode: "no-cors",
-      body: data
+      data
     });
     if (response.status !== undefined) {
-      const currentItem = await response.json();
+      const currentItem = await response.data.data;
       console.log(currentItem);
     }
     // history.push("/list");
   };
 
   const remove = async (where: any) => {
-    const url = `${BASE_URL}/${table}/${where.id}`;
-    const response = await fetch(url, {
-      method: "DELETE",
-      mode: "no-cors",
-      headers: {
-        'Authorizatioin': token
-      }
+    const url =
+      table === "users"
+        ? `/${table}/${where.id}?table=${table}`
+        : `/${table}/${where.id}`;
+    const response = await axios(url, {
+      method: "DELETE"
     });
     if (response.status !== undefined) {
-      const deletedItem = await response.json();
+      const deletedItem = await response.data.data;
       console.log(deletedItem);
     }
   };
@@ -48,17 +43,17 @@ const SaveForm = () => {
    * 通过路由参数获取数据，并设置状态
    */
   const findOne = async (where: any) => {
-    const url = `${BASE_URL}/${table}/${where.id}?table=${table}`;
-    const response = await fetch(url, {
-      mode: "no-cors",
-      headers: {
-        'Authorizatioin': token
-      }
+    const url =
+      table === "users"
+        ? `/${table}/${where.id}?table=${table}`
+        : `/${table}/${where.id}`;
+    const response = await axios(url, {
+      method: "get"
     });
     if (response.status !== 200) {
       setitem({});
     }
-    const currentItem = await response.json();
+    const currentItem = await response.data.data;
     setitem(currentItem);
   };
 

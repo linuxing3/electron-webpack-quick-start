@@ -1,32 +1,27 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import axios from "../helpers/axios.client";
 
 import { GlobalContext } from "./main.page";
-
-const BASE_URL = "http://xunqinji.top:9007/api/v1";
 
 const LoginList = () => {
   const context = React.useContext(GlobalContext);
 
   const [list, setList] = React.useState([]);
   const [table] = React.useState(context.state.table);
-  const [token] = React.useState(context.state.token);
 
   const history = useHistory();
 
   const findAll = async () => {
-    const url = `${BASE_URL}/${table}?table=${table}`;
-    const response = await fetch(url, {
-      mode: "no-cors",
-      headers: {
-        Authorizatioin: token
-      },
-      credentials: "include"
-    });
+    const url =
+    table === "users"
+      ? `/${table}?table=${table}`
+      : `/${table}`;
+    const response = await axios.get(url);
     if (response.status !== 200) {
       setList([]);
     }
-    const data = await response.json();
+    const data = await response.data.data;
     setList(data);
   };
 
