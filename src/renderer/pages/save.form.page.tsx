@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { PrismaClient } from "@prisma/client";
 import useForm from "../helpers/hooks/useForm";
 
 const prisma = new PrismaClient();
-
-const initialValues = {
-  name: "...",
-  email: "...",
-  password: "..."
-};
 
 const SaveForm = () => {
   const { id } = useParams();
@@ -20,6 +14,7 @@ const SaveForm = () => {
       where
     });
     console.log(updatedUser);
+    // history.push("/list");
   };
 
   const remove = async (where: any) => {
@@ -39,7 +34,7 @@ const SaveForm = () => {
   /**
    * 定义状态
    */
-  const [item, setitem] = useState(initialValues);
+  const [item, setitem] = useState({});
 
   /**
    * 使用状态中的数据，初始化表单
@@ -54,7 +49,7 @@ const SaveForm = () => {
    */
   useEffect(() => {
     findOne({ id: parseInt(id) });
-  }, [id]);
+  }, []);
 
   return (
     <div className="flex mb-4 justify-center py-30">

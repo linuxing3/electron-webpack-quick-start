@@ -17,7 +17,8 @@ const LoginList = () => {
   };
 
   const showDetail = (id: any) => {
-    history.push(`/save/${id}`);
+    const selectedUser = list.filter(i => i.id === id);
+    history.push(`/save/${id}`, { ...selectedUser });
   };
 
   React.useEffect(() => {
