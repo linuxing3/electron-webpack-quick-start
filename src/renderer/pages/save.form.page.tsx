@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { PrismaClient } from "@prisma/client";
 import useForm from "../helpers/hooks/useForm";
 
 const prisma = new PrismaClient();
 
 const initialValues = {
-  name: "test",
-  email: "test@electron.com",
-  password: "99999999"
+  name: "...",
+  email: "...",
+  password: "..."
 };
 
-const LoginForm = () => {
-  const history = useHistory();
+const SaveForm = () => {
   const { id } = useParams();
 
   const update = async (data: any, where: any) => {
@@ -21,13 +20,11 @@ const LoginForm = () => {
       where
     });
     console.log(updatedUser);
-    history.push("/list");
   };
 
   const remove = async (where: any) => {
     const deletedUser = await prisma.users.delete({ where });
     console.log(deletedUser);
-    history.push("/list");
   };
 
   /**
@@ -35,7 +32,7 @@ const LoginForm = () => {
    */
   const findOne = async (where: any) => {
     const oneUser = await prisma.users.findOne({ where });
-    setitem(oneUser);
+    setitem({ ...oneUser });
   };
 
   // Hooks
@@ -56,7 +53,7 @@ const LoginForm = () => {
    * 需要在渲染组件前，执行一次获取数据
    */
   useEffect(() => {
-    findOne({ id });
+    findOne({ id: parseInt(id) });
   }, [id]);
 
   return (
@@ -128,4 +125,4 @@ const LoginForm = () => {
     </div>
   );
 };
-export default LoginForm;
+export default SaveForm;
