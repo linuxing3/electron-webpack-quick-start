@@ -6,25 +6,22 @@ import UserProfile from "../pages/user.profile.page";
 import UserList from "../pages/user.list.page";
 import SaveForm from "../pages/save.form.page";
 
-const TOKEN = "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Inhpbmd3ZW5qdSIsImVtYWlsIjoieGluZ3dlbmp1QGdtYWlsLmNvbSJ9.auCidFeJ7foumlVGCws7Aqlzk-RpqLlhO9NcHmzXpbI"
 export const GlobalContext = React.createContext({
-  state: {
-    table: '',
-    currentItem: {},
-    token: ''
-  }
+  state: null,
+  setState: null,
+  token: null
 });
 
 const MainPage = () => {
   // GlobalContext
-  const [ state ] = useState({
+  const [ state, setState ] = useState({
     table: 'users',
     currentItem: {},
-    token: TOKEN
+    token: ''
   });
 
   return (
-    <GlobalContext.Provider value={{ state }}>
+    <GlobalContext.Provider value={{ state, setState }}>
       <Router>
         <nav className='flex items-center justify-between flex-wrap bg-teal-500 p-6'>
           <div className='flex items-center flex-shrink-0 text-white mr-6'>

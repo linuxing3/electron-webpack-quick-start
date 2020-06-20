@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
 import axios from "../helpers/axios.client";
+import { GlobalContext } from "./main.page";
 
 const initialValues = {
   name: "xingwenju",
@@ -11,6 +12,8 @@ const initialValues = {
 
 const LoginForm = () => {
   const history = useHistory();
+
+  const context = React.useContext(GlobalContext);
 
   const onSubmit = async (data: any) => {
     await create(data);
@@ -30,7 +33,10 @@ const LoginForm = () => {
       if (response.status === 200) {
         const token = response.data.data.accessToken;
         if (token) {
+          // set token to localstorage
           window.localStorage.setItem("token", 'bearer '+ token);
+          // set token to global context
+          context.setState({ state: { ...context.state, token } });
           history.push("/profile");
         }
       } else {

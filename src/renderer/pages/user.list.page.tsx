@@ -6,6 +6,11 @@ import { GlobalContext } from "./main.page";
 
 const LoginList = () => {
   const context = React.useContext(GlobalContext);
+  const options = context.state.token? {
+    headers: {
+      'Authorization': context.state.token
+    }
+  } : {}
 
   const [list, setList] = React.useState([]);
   const [table] = React.useState(context.state.table);
@@ -17,7 +22,7 @@ const LoginList = () => {
     table === "users"
       ? `/api/v1/${table}?table=${table}`
       : `/api/v1/${table}`;
-    const response = await axios.get(url);
+    const response = await axios.get(url, options);
     if (response.status !== 200) {
       setList([]);
     }
@@ -26,9 +31,10 @@ const LoginList = () => {
   };
 
   const showDetail = (id: any) => {
-    const selectedItem = list.filter((i) => i.id === id);
-    window.localStorage.setItem("currentItem", JSON.stringify(selectedItem[0]));
-    history.push(`/save/${id}`, { ...selectedItem });
+    const currentItem = list.filter((i) => i.id === id)[0];
+    window.localStorage.setItem("currentItem", JSON.stringify(currentItem) );
+    context.setState({ state: { ...context.state, currentItem } });
+    history.push(`/save/${id}`);
   };
 
   React.useEffect(() => {

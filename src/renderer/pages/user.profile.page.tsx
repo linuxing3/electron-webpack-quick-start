@@ -5,7 +5,12 @@ import axios from "../helpers/axios.client";
 const LoginProfile = () => {
 
   const context = React.useContext(GlobalContext);
-  console.log(context);
+  const options = context.state.token? {
+    headers: {
+      'Authorization': context.state.token
+    }
+  } : {}
+
   const [table] = React.useState(context.state.table);
 
   const [item, setItem] = React.useState({
@@ -22,7 +27,7 @@ const LoginProfile = () => {
     table === "users"
       ? `/api/v1/${table}/${where.id}?table=${table}`
       : `/api/v1/${table}/${where.id}`;
-    const response = await axios.get(url, {});
+    const response = await axios.get(url, options);
     if (response.status !== 200) {
       console.log("No item found!")
     }

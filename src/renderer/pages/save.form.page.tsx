@@ -8,8 +8,13 @@ import { GlobalContext } from "./main.page";
 const SaveForm = () => {
   const history = useHistory();
   const context = React.useContext(GlobalContext);
+  const options = context.state.token? {
+    headers: {
+      'Authorization': context.state.token
+    }
+  } : {}
   const [table] = React.useState(context.state.table);
-  const currentItem = JSON.parse(window.localStorage.getItem("currentItem"));
+  const itemStore = window.localStorage.getItem("currentItem");
 
   const update = async (data: any, where: any) => {
     const url =
@@ -18,7 +23,8 @@ const SaveForm = () => {
         : `/api/v1/${table}/${where.id}`;
     await axios(url, {
       method: "put",
-      data: JSON.stringify(skipFields(data))
+      data: JSON.stringify(skipFields(data)),
+      ...options
     });
     history.push('/list')
   };
@@ -29,7 +35,8 @@ const SaveForm = () => {
         ? `/api/v1/${table}/${where.id}?table=${table}`
         : `/api/v1/${table}/${where.id}`;
     await axios(url, {
-      method: "delete"
+      method: "delete",
+      ...options
     });
     history.push('/list')
   };
@@ -38,7 +45,7 @@ const SaveForm = () => {
    * 使用状态中的数据，初始化表单
    */
   const { values, handleChange } = useForm({
-    initialValues: { ...currentItem },
+    initialValues: JSON.parse(JSON.stringify(itemStore)),
     onSubmit: ({ values }) => console.log(values)
   });
 
