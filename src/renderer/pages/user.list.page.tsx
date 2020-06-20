@@ -3,20 +3,23 @@ import { useHistory } from "react-router-dom";
 
 import { GlobalContext } from "./main.page";
 
-const BASE_URL = "http://xunqinji.top:9007/api/v1/";
+const BASE_URL = "http://xunqinji.top:9007/api/v1";
 
 const LoginList = () => {
 
   const context = React.useContext(GlobalContext);
 
   const [list, setList] = React.useState([]);
-  const [table] = React.useState(context.value.state.table);
+  const [table] = React.useState(context.state.table);
+  const [token] = React.useState(context.state.token);
 
   const history = useHistory();
 
   const findAll = async () => {
-    const url = `${BASE_URL}/${table}`;
-    const response = await fetch(url);
+    const url = `${BASE_URL}/${table}?table=${table}`;
+    const response = await fetch(url, { mode: 'no-cors', headers: {
+      'Authorizatioin': token
+    }});
     if (response.status !== 200) {
       setList([]);    
     }
@@ -31,7 +34,7 @@ const LoginList = () => {
 
   React.useEffect(() => {
     findAll();
-  }, []);
+  }, [ table ]);
 
   return (
     <div className='flex flex-wrap mb-4 justify-center py-30'>

@@ -1,32 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
+import { GlobalContext } from "./main.page";
 
-const BASE_URL = "http://xunqinji.top:9007/api/v1/"
+const BASE_URL = "http://xunqinji.top:9007/api/v1";
 
 const SaveForm = () => {
   const { id } = useParams();
+  const context = React.useContext(GlobalContext);
+  const [table] = React.useState(context.state.table);
+  const [token] = React.useState(context.state.token);
 
   const update = async (data: any, where: any) => {
-    const url = BASE_URL + 'users/' + where.id;
+    const url = `${BASE_URL}/${table}/${where.id}`;
     const response = await fetch(url, {
       method: "PUT",
+      headers: {
+        'Authorizatioin': token
+      },
+      mode: "no-cors",
       body: data
     });
     if (response.status !== undefined) {
-      const currentItem =  await response.json();
+      const currentItem = await response.json();
       console.log(currentItem);
     }
     // history.push("/list");
   };
 
   const remove = async (where: any) => {
-    const url = BASE_URL + 'users/' + where.id;
+    const url = `${BASE_URL}/${table}/${where.id}`;
     const response = await fetch(url, {
-      method: "DELETE"
+      method: "DELETE",
+      mode: "no-cors",
+      headers: {
+        'Authorizatioin': token
+      }
     });
     if (response.status !== undefined) {
-      const deletedItem =  await response.json();
+      const deletedItem = await response.json();
       console.log(deletedItem);
     }
   };
@@ -35,12 +47,17 @@ const SaveForm = () => {
    * 通过路由参数获取数据，并设置状态
    */
   const findOne = async (where: any) => {
-    const url = BASE_URL + 'users/' + where.id;
-    const response = await fetch(url);
+    const url = `${BASE_URL}/${table}/${where.id}?table=${table}`;
+    const response = await fetch(url, {
+      mode: "no-cors",
+      headers: {
+        'Authorizatioin': token
+      }
+    });
     if (response.status !== 200) {
-      setitem({});    
+      setitem({});
     }
-    const currentItem =  await response.json();
+    const currentItem = await response.json();
     setitem(currentItem);
   };
 
@@ -66,65 +83,65 @@ const SaveForm = () => {
   }, []);
 
   return (
-    <div className="flex mb-4 justify-center py-30">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+    <div className='flex mb-4 justify-center py-30'>
+      <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'>
+        <div className='mb-4'>
+          <label className='block text-gray-700 text-sm font-bold mb-2'>
             id
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            name="id"
+            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            name='id'
             value={values.id}
           ></input>
           {/* {errors.name && <span>This field is required</span>} */}
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+        <div className='mb-4'>
+          <label className='block text-gray-700 text-sm font-bold mb-2'>
             Username
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            name="name"
+            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            name='name'
             value={values.name}
             onChange={handleChange}
           ></input>
           {/* {errors.name && <span>This field is required</span>} */}
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className='block text-gray-700 text-sm font-bold mb-2'>
             Email
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            name="email"
+            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            name='email'
             value={values.email}
             onChange={handleChange}
           ></input>
           {/* {errors.email && <span>This field is required</span>} */}
         </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+        <div className='mb-6'>
+          <label className='block text-gray-700 text-sm font-bold mb-2'>
             Password
           </label>
           <input
-            className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            name="password"
+            className='shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline'
+            name='password'
             value={values.password}
             onChange={handleChange}
-            type="password"
+            type='password'
           ></input>
           {/* {errors.password && <span>This field is required</span>} */}
         </div>
-        <div className="flex items-center justify-between">
+        <div className='flex items-center justify-between'>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             onClick={() => update(values, { id: values.id })}
           >
             update
           </button>
           <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             onClick={() => remove({ id: values.id })}
           >
             Remove

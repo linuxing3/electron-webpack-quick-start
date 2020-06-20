@@ -6,13 +6,21 @@ import UserProfile from "../pages/user.profile.page";
 import UserList from "../pages/user.list.page";
 import SaveForm from "../pages/save.form.page";
 
-export const GlobalContext = React.createContext();
+const TOKEN = "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Inhpbmd3ZW5qdSIsImVtYWlsIjoieGluZ3dlbmp1QGdtYWlsLmNvbSJ9.auCidFeJ7foumlVGCws7Aqlzk-RpqLlhO9NcHmzXpbI"
+export const GlobalContext = React.createContext({
+  state: {
+    table: '',
+    currentItem: {},
+    token: ''
+  }
+});
 
 const MainPage = () => {
   // GlobalContext
   const [ state ] = useState({
-    table: 'user',
-    currentItem: {}
+    table: 'users',
+    currentItem: {},
+    token: TOKEN
   });
 
   return (

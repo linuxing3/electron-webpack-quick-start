@@ -1,9 +1,9 @@
 import React from "react";
 import { useHistory  } from "react-router-dom";
 import useForm  from "../helpers/hooks/useForm";
+import { GlobalContext } from "./main.page";
 
-const BASE_URL = "http://xunqinji.top:9007/api/v1/";
-
+const BASE_URL = "http://xunqinji.top:9007/api/v1";
 const initialValues = {
   name: "test",
   email: "test@electron.com",
@@ -13,6 +13,9 @@ const initialValues = {
 const LoginForm = () => {
 
   const history = useHistory();
+  const context = React.useContext(GlobalContext);
+  const [table] = React.useState(context.state.table);
+  const [token] = React.useState(context.state.token);
 
   const onSubmit = async (data: any) => {
     await create(data);
@@ -20,9 +23,13 @@ const LoginForm = () => {
 
   const create = async (data: any) => {
     // Create a new user
-    const url = BASE_URL + 'users/';
+    const url = `${BASE_URL}/${table}?table=${table}`;
     const response = await fetch(url, {
       method: 'POST',
+      headers: {
+        'Authorizatioin': token
+      },
+      mode: 'no-cors',
       body: data
     });
     const newItem = await response.json();
