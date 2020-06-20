@@ -1,26 +1,29 @@
 import React from "react";
+import { GlobalContext } from "./main.page";
 
-const BASE_URL = "http://xunqinji.top:9007/api/v1/"
+const BASE_URL = "http://xunqinji.top:9007/api/v1/";
 
 const LoginProfile = () => {
-  const [user, setUser] = React.useState({
+  const context = React.useContext(GlobalContext);
+  const [table] = React.useState(context.value.state.table);
+
+  const [item, setItem] = React.useState({
     name: "",
     password: "",
     email: ""
   });
 
-
   /**
    * 通过路由参数获取数据，并设置状态
    */
   const findOne = async (where: any) => {
-    const url = BASE_URL + 'users/' + where.id;
+    const url = `${BASE_URL}/${table}/${where.id}`;
     const response = await fetch(url);
     if (response.status !== 200) {
-      setUser({});    
+      setItem({});    
     }
     const currentItem =  await response.json();
-    setUser(currentItem);
+    setItem(currentItem);
   };
 
 
@@ -37,8 +40,8 @@ const LoginProfile = () => {
           alt='Sunset in the mountains'
         />
         <div className='px-6 py-4'>
-          <div className='font-bold text-xl mb-2'>{user.name}</div>
-          <p className='text-gray-700 text-base'>{user.email}</p>
+          <div className='font-bold text-xl mb-2'>{item.Item}</div>
+          <p className='text-gray-700 text-base'>{item.eItem}</p>
         </div>
         <div className='px-6 py-4 flex items-center'>
           <img
@@ -47,8 +50,8 @@ const LoginProfile = () => {
             alt='Avatar of Jonathan Reinink'
           />
           <div className='text-sm'>
-            <p className='text-gray-900 leading-none'>{user.name}</p>
-            <p className='text-gray-600'>{user.name}</p>
+            <p className='text-gray-900 leading-none'>{item.Item}</p>
+            <p className='text-gray-600'>{item.Item}</p>
           </div>
         </div>
         <div className='px-6 py-4'>

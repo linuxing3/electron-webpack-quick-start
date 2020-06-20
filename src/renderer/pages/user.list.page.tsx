@@ -1,16 +1,21 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
+import { GlobalContext } from "./main.page";
+
 const BASE_URL = "http://xunqinji.top:9007/api/v1/";
 
 const LoginList = () => {
 
-  const history = useHistory();
+  const context = React.useContext(GlobalContext);
 
   const [list, setList] = React.useState([]);
+  const [table] = React.useState(context.value.state.table);
+
+  const history = useHistory();
 
   const findAll = async () => {
-    const url = BASE_URL + 'users/';
+    const url = `${BASE_URL}/${table}`;
     const response = await fetch(url);
     if (response.status !== 200) {
       setList([]);    
@@ -20,8 +25,8 @@ const LoginList = () => {
   };
 
   const showDetail = (id: any) => {
-    const selectedUser = list.filter(i => i.id === id);
-    history.push(`/save/${id}`, { ...selectedUser });
+    const selectedItem = list.filter(i => i.id === id);
+    history.push(`/save/${id}`, { ...selectedItem });
   };
 
   React.useEffect(() => {
