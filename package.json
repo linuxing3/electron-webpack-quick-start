@@ -5,21 +5,18 @@
   "scripts": {
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
+    "build": "electron-builder",
     "addon:ts": "yarn add typescript electron-webpack-ts --dev",
     "add:eslint": "yarn add electron-webpack-eslint --dev",
     "addon:react": "yarn add @babel/preset-react --dev",
     "addon:less": "yarn add less less-loader --dev",
     "addon:sass": "yarn add node-sass sass-loader --dev",
-    "prisma:prepare": "prisma introspect",
-    "prisma:generate": "prisma generate",
     "lint": "eslint --fix **/*/*.ts && eslint --fix **/*/*.tsx",
     "tailwind": "tailwindcss build .\\src\\renderer\\tailwind.css -o .\\src\\renderer\\taiwind.generated.css",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
   },
   "dependencies": {
-    "@prisma/cli": "2.0.1",
-    "@prisma/client": "2.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "6.0.0-rc.4",

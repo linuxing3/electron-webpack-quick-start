@@ -1,8 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { PrismaClient } from "@prisma/client";  
 
-const prisma = new PrismaClient();
+const BASE_URL = "http://xunqinji.top:9007/api/v1/";
 
 const LoginList = () => {
 
@@ -11,9 +10,13 @@ const LoginList = () => {
   const [list, setList] = React.useState([]);
 
   const findAll = async () => {
-    const allUsers = await prisma.users.findMany();
-    setList(allUsers);
-    console.log(allUsers);
+    const url = BASE_URL + 'users/';
+    const response = await fetch(url);
+    if (response.status !== 200) {
+      setList([]);    
+    }
+    const data =  await response.json();
+    setList(data);
   };
 
   const showDetail = (id: any) => {

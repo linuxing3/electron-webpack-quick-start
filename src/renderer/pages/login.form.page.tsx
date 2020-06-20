@@ -1,9 +1,8 @@
 import React from "react";
 import { useHistory  } from "react-router-dom";
-import { PrismaClient } from "@prisma/client";
 import useForm  from "../helpers/hooks/useForm";
 
-const prisma = new PrismaClient();
+const BASE_URL = "http://xunqinji.top:9007/api/v1/";
 
 const initialValues = {
   name: "test",
@@ -21,11 +20,14 @@ const LoginForm = () => {
 
   const create = async (data: any) => {
     // Create a new user
-    const newUser = await prisma.users.create({
-      data
+    const url = BASE_URL + 'users/';
+    const response = await fetch(url, {
+      method: 'POST',
+      body: data
     });
-    if (newUser) history.push('/list');
-    console.log(newUser);
+    const newItem = await response.json();
+    if (newItem) history.push('/list');
+    console.log(newItem);
   };
 
 

@@ -31,12 +31,6 @@ jobs:
     - name: generate tailwindcss style
       run: |
        yarn run tailwind
-    - name: run prisma introspect
-      run: |
-       yarn run prisma:prepare
-    - name: generate prisma client
-      run: |
-       yarn run prisma:generate
     - name: run lint fix
       run: |
        yarn run lint

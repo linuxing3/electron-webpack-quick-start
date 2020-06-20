@@ -1,33 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { PrismaClient } from "@prisma/client";
+import { useParams } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
 
-const prisma = new PrismaClient();
+const BASE_URL = "http://xunqinji.top:9007/api/v1/"
 
 const SaveForm = () => {
   const { id } = useParams();
 
   const update = async (data: any, where: any) => {
-    const updatedUser = await prisma.users.update({
-      data,
-      where
+    const url = BASE_URL + 'users/' + where.id;
+    const response = await fetch(url, {
+      method: "PUT",
+      body: data
     });
-    console.log(updatedUser);
+    if (response.status !== undefined) {
+      const currentItem =  await response.json();
+      console.log(currentItem);
+    }
     // history.push("/list");
   };
 
   const remove = async (where: any) => {
-    const deletedUser = await prisma.users.delete({ where });
-    console.log(deletedUser);
+    const url = BASE_URL + 'users/' + where.id;
+    const response = await fetch(url, {
+      method: "DELETE"
+    });
+    if (response.status !== undefined) {
+      const deletedItem =  await response.json();
+      console.log(deletedItem);
+    }
   };
 
   /**
    * 通过路由参数获取数据，并设置状态
    */
   const findOne = async (where: any) => {
-    const oneUser = await prisma.users.findOne({ where });
-    setitem({ ...oneUser });
+    const url = BASE_URL + 'users/' + where.id;
+    const response = await fetch(url);
+    if (response.status !== 200) {
+      setitem({});    
+    }
+    const currentItem =  await response.json();
+    setitem(currentItem);
   };
 
   // Hooks
@@ -48,7 +62,7 @@ const SaveForm = () => {
    * 需要在渲染组件前，执行一次获取数据
    */
   useEffect(() => {
-    findOne({ id: parseInt(id) });
+    findOne({ id });
   }, []);
 
   return (

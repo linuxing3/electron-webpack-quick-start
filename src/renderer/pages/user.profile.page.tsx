@@ -1,7 +1,6 @@
 import React from "react";
-import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+const BASE_URL = "http://xunqinji.top:9007/api/v1/"
 
 const LoginProfile = () => {
   const [user, setUser] = React.useState({
@@ -10,16 +9,20 @@ const LoginProfile = () => {
     email: ""
   });
 
-  // const findAll = async () => {
-  //   const allUsers = await prisma.users.findMany();
-  //   console.log(allUsers);
-  // };
 
+  /**
+   * 通过路由参数获取数据，并设置状态
+   */
   const findOne = async (where: any) => {
-    const foundUser = await prisma.users.findOne({ where });
-    console.log(foundUser);
-    setUser(foundUser);
+    const url = BASE_URL + 'users/' + where.id;
+    const response = await fetch(url);
+    if (response.status !== 200) {
+      setUser({});    
+    }
+    const currentItem =  await response.json();
+    setUser(currentItem);
   };
+
 
   React.useEffect(() => {
     findOne({ id: 1 });
