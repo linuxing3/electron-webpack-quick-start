@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
 import { GlobalContext } from "./main.page";
 import axios from "../helpers/axios.client";
 
 const SaveForm = () => {
   const { id } = useParams();
+  const history = useHistory();
   const context = React.useContext(GlobalContext);
   const [table] = React.useState(context.state.table);
 
@@ -15,14 +16,15 @@ const SaveForm = () => {
         ? `/${table}/${where.id}?table=${table}`
         : `/${table}/${where.id}`;
     const response = await axios(url, {
-      method: "PUT",
+      method: "put",
       data
     });
     if (response.status !== undefined) {
       const currentItem = await response.data.data;
       console.log(currentItem);
+      setitem({});
+      history.push('/list')
     }
-    // history.push("/list");
   };
 
   const remove = async (where: any) => {
@@ -31,11 +33,13 @@ const SaveForm = () => {
         ? `/${table}/${where.id}?table=${table}`
         : `/${table}/${where.id}`;
     const response = await axios(url, {
-      method: "DELETE"
+      method: "delete"
     });
     if (response.status !== undefined) {
-      const deletedItem = await response.data.data;
-      console.log(deletedItem);
+      const result= await response.data.msg;
+      console.log(result);
+      setitem({});
+      history.push('/list')
     }
   };
 
@@ -47,9 +51,7 @@ const SaveForm = () => {
       table === "users"
         ? `/${table}/${where.id}?table=${table}`
         : `/${table}/${where.id}`;
-    const response = await axios(url, {
-      method: "get"
-    });
+    const response = await axios(url);
     if (response.status !== 200) {
       setitem({});
     }
@@ -76,6 +78,9 @@ const SaveForm = () => {
    */
   useEffect(() => {
     findOne({ id });
+    return () => {
+      // clear stuff
+    }
   }, []);
 
   return (
@@ -83,14 +88,8 @@ const SaveForm = () => {
       <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'>
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-bold mb-2'>
-            id
+            {values.id}
           </label>
-          <input
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-            name='id'
-            value={values.id}
-          ></input>
-          {/* {errors.name && <span>This field is required</span>} */}
         </div>
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-bold mb-2'>

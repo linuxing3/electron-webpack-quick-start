@@ -22,9 +22,7 @@ const LoginForm = () => {
   const create = async (data: any) => {
     // Create a new user
     const url = table === "users" ? `/${table}?table=${table}` : `/${table}`;
-    const response = await axios.post(url, {
-      data
-    });
+    const response = await axios.post(url, data);
     const newItem = await response.data.data;
     if (newItem) history.push("/list");
     console.log(newItem);
