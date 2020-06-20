@@ -17,7 +17,7 @@ const SaveForm = () => {
         : `/${table}/${where.id}`;
     const response = await axios(url, {
       method: "put",
-      data
+      data: JSON.stringify(data)
     });
     if (response.status !== undefined) {
       const currentItem = await response.data.data;
@@ -55,8 +55,12 @@ const SaveForm = () => {
     if (response.status !== 200) {
       setitem({});
     }
-    const currentItem = await response.data.data;
-    setitem(currentItem);
+    const data = await response.data.data;
+    // delete keys
+    const { updated_at, created_at, ...rest } = data;
+    console.log(updated_at);
+    console.log(created_at);
+    setitem({ ... rest });
   };
 
   // Hooks
