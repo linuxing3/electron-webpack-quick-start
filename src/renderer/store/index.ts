@@ -1,12 +1,20 @@
 import { createStore } from 'easy-peasy';
-import users from './users';
-import games from './games';
-import auth from './auth';
+import users, { UserModel } from './users';
+import games, { GameModel } from './games';
+import auth, { AuthModel } from './auth';
 
-const store = createStore({
+export interface StoreModel {
+  users: UserModel,
+  games: GameModel,
+  auth: AuthModel
+}
+export const storeModel: StoreModel = {
   users,
   games,
   auth
-})
+}
+
+const store = createStore(storeModel);
+window.store = store;
 
 export default store;

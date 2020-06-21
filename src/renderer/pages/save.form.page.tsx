@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
 import skipFields from "../helpers/skipFields";
 import axios from "../helpers/axios.client";
-import { GlobalContext } from '../contexts';
+import { GlobalContext, IGlobalContext } from '../contexts';
 // import { pick } from 'lodash';
 
 const SaveForm = () => {
@@ -11,7 +11,7 @@ const SaveForm = () => {
   const {
     state: { table, currentItem, token },
     changeState
-  } = React.useContext(GlobalContext);
+  } = React.useContext<IGlobalContext>(GlobalContext);
   const options = token
     ? {
         headers: {
@@ -19,7 +19,6 @@ const SaveForm = () => {
         }
       }
     : {};
-  // const itemStore = window.localStorage.getItem("currentItem");
 
   const [tableField, setTableField] = React.useState([]);
 
@@ -113,7 +112,7 @@ const SaveForm = () => {
     <div className='flex mb-4 justify-center py-30'>
       <form
         onSubmit={update}
-        className='bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'
+        className='w-2/3 bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'
       >
         {renderInputs()}
         {renderActions()}

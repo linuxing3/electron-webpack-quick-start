@@ -1,10 +1,10 @@
 import React from "react";
 import axios from "../helpers/axios.client";
-import { GlobalContext } from '../contexts';
+import { GlobalContext, IGlobalContext } from '../contexts';
 
 const LoginProfile = () => {
 
-  const { state: { table, token } } = React.useContext(GlobalContext);
+  const { state: { table, token } } = React.useContext<IGlobalContext>(GlobalContext);
   const options = token? {
     headers: {
       'Authorization': token

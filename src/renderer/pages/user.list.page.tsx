@@ -1,15 +1,15 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "../helpers/axios.client";
-import { GlobalContext } from '../contexts';
-import { useStoreState, useStoreActions } from "easy-peasy";
+import { GlobalContext, IGlobalContext } from '../contexts';
+import { useStoreState, useStoreActions } from "../store/hooks";
 
-const LoginList = () => {
+export default function LoginList() {
   // global context
   const {
     state: { table, token },
     changeState
-  } = React.useContext(GlobalContext);
+  } = React.useContext<IGlobalContext>(GlobalContext);
   const options = token
     ? {
         headers: {
@@ -22,6 +22,7 @@ const LoginList = () => {
   // const users = useStoreState(state => state.users.items)
   // const add = useStoreActions(actions => actions.users.add)
 
+  const [tableNameList, setTableNameList] = React.useState(['users', 'games']);
   // list to hold data
   const [list, setList] = React.useState([]);
 
@@ -35,6 +36,8 @@ const LoginList = () => {
     const url = `/api/v1/fields?table=${table}`;
     const response = await axios.get(url, options);
     const tableFields = await response.data.data;
+    console.log('[ Fetched ]: table fields');
+    console.log(tableFields);
     setTableField(tableFields);
   };
 
@@ -45,15 +48,19 @@ const LoginList = () => {
         : `/api/v1/${table}`;
     const response = await axios.get(url, options);
     const data = await response.data.data;
+    console.log('[ Fetched ]: table data, totally records ' + data.length);
     setList(data);
   };
 
   const showDetail = (id: any) => {
     const currentItem = list.filter((i) => i.id === id)[0];
-    window.localStorage.setItem("currentItem", JSON.stringify(currentItem));
     changeState({ currentItem });
     history.push(`/save/${id}`);
   };
+
+  const onChangeTable = (e) => {
+    changeState({ table: e.target.value });
+  }
 
   React.useEffect(() => {
     console.log('[ Testing ]: Global Store');
@@ -79,6 +86,16 @@ const LoginList = () => {
       </div>
     );
   };
+
+  const renderSelect = () => (
+    <div className="relative">
+      <select 
+        onChange={onChangeTable}
+        className="block appearance-none w-full bg-gray-200 border boder-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+        {tableNameList.map(t => <option key={t}>{t}</option>)}
+      </select>
+    </div>
+  )
 
   const renderCard = (item) => {
     return (
@@ -123,6 +140,7 @@ const LoginList = () => {
 
   return (
     <div className='flex flex-wrap mb-4 justify-center py-30'>
+      {renderSelect()}
       {list.map((item) => {
         return (
           <div key={item.id}>{renderCard(item)}</div>
@@ -131,4 +149,3 @@ const LoginList = () => {
     </div>
   );
 };
-export default LoginList;

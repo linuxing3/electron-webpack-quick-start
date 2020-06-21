@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
 import axios from "../helpers/axios.client";
-import { GlobalContext } from '../contexts';
+import { GlobalContext, IGlobalContext } from '../contexts';
 
 const initialValues = {
   name: "xingwenju",
@@ -13,7 +13,7 @@ const initialValues = {
 const LoginForm = () => {
   const history = useHistory();
 
-  const { changeState } = React.useContext(GlobalContext);
+  const { changeState } = React.useContext<IGlobalContext>(GlobalContext);
 
   const onSubmit = async (data: any) => {
     await create(data);
@@ -33,8 +33,6 @@ const LoginForm = () => {
       if (response.status === 200) {
         const token = response.data.data.accessToken;
         if (token) {
-          // set token to localstorage
-          window.localStorage.setItem("token", 'bearer '+ token);
           // set token to global context
           changeState({ token: 'bearer '+ token });
           history.push("/profile");
@@ -55,7 +53,7 @@ const LoginForm = () => {
     <div className='flex mb-4 justify-center py-30'>
       <form
         onSubmit={handleSubmit}
-        className='bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'
+        className='w-1/4 bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'
       >
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-bold mb-2'>

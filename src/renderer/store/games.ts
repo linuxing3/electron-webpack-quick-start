@@ -1,5 +1,26 @@
-import { action } from 'easy-peasy';
-const games = {
+import { thunk, action, actionOn, Action, Thunk, ActionOn } from 'easy-peasy';
+import { StoreModel } from './index';
+
+export interface GameModel {
+  table: string;
+  items: any[];
+  cache?: {
+    add: any[];
+    remove: any[];
+    update: any[];
+  },
+  add?: Action<GameModel, any>;
+  remove?: Action<GameModel, any>;
+  find?: Action<GameModel, any>;
+  update?: Action<GameModel, any>;
+  upload?: Thunk<GameModel, any>;
+  fetch?: Thunk<GameModel, any>;
+  addListener?: ActionOn<GameModel, StoreModel>;
+  removeListener?: ActionOn<GameModel, StoreModel>;
+}
+
+const games: GameModel = {
+    table: 'games',
     items: [],
     add: action((state, payload) => {
       state.items.push(payload);
@@ -14,7 +35,7 @@ const games = {
     }),
     update: action((state, payload) => {
       const { id, data } = payload;
-      const found = state.items.filter(item => item.id === id)[0];
+      let found = state.items.filter(item => item.id === id)[0];
       found = { ...found, ...data};
     })
 }
