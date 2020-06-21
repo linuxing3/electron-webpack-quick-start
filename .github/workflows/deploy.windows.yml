@@ -26,6 +26,7 @@ jobs:
        npm -v
        npm i -g yarn
        npm i -g eslint
+       npm i -g prettier
        yarn -v
        yarn
     - name: generate tailwindcss style
@@ -33,7 +34,7 @@ jobs:
        yarn run tailwind
     - name: run lint fix
       run: |
-       yarn run lint
+       yarn run lint:fix
     - name: build dist
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -11,9 +11,9 @@
     "addon:react": "yarn add @babel/preset-react --dev",
     "addon:less": "yarn add less less-loader --dev",
     "addon:sass": "yarn add node-sass sass-loader --dev",
-    "lint": "eslint */**/*.{js,ts,tsx} --ignore-path .gitignore",
+    "lint": "eslint */**/*.{js,jsx,ts,tsx} --ignore-path .gitignore",
     "lint:fix": "yarn run lint --quiet --fix",
-    "format": "prettier --write \"{,!(node_modules|dist)/**/}*.{js,ts,tsx}\"",
+    "format": "prettier --write \"{,!(node_modules|dist)/**/}*.{js,jsx,ts,tsx,md}\"",
     "tailwind": "tailwindcss build .\\src\\renderer\\tailwind.css -o .\\src\\renderer\\taiwind.generated.css",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
