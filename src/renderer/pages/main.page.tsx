@@ -1,27 +1,26 @@
 import React, { useState } from "react";
-import { HashRouter as Router, Link, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Link, Switch, Route, Redirect } from "react-router-dom";
 
 import LoginForm from "../pages/login.form.page";
 import UserProfile from "../pages/user.profile.page";
 import UserList from "../pages/user.list.page";
 import SaveForm from "../pages/save.form.page";
 
-export const GlobalContext = React.createContext({
-  state: {
-    table: 'users',
-    currentItem: {},
-    token: ''
-  },
-  changeState: (s: any) => {},
-});
+import { GlobalContext } from '../contexts';
 
 const MainPage = () => {
-  // GlobalContext
+  /**
+   * initial values of global context
+   */ 
   const [ state, setState ] = useState({
     table: 'users',
     currentItem: {},
     token: ''
   });
+
+  /**
+   * Here are the method of context, which can be called from child component
+   */
 
   const changeState = (s: any) => { 
     setState({...state, ...s});
@@ -65,25 +64,30 @@ const MainPage = () => {
                     Home
                   </div>
                 </Link>
-                <Link to='/profile'>
-                  <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
-                    Profile
-                  </div>
-                </Link>
-                <Link to='/list'>
-                  <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
-                    List
-                  </div>
-                </Link>
-                <Link to='/table'>
-                  <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
-                    Detail
-                  </div>
-                </Link>
+                {state.token ? 
+                  <>
+                    <Link to='/profile'>
+                      <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
+                        Profile
+                      </div>
+                    </Link>
+                    <Link to='/list'>
+                      <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
+                        List
+                      </div>
+                    </Link>
+                    <Link to='/table'>
+                      <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
+                        Detail
+                      </div>
+                    </Link>
+                  </>
+                  : <></>
+               }
               </div>
               <Link to='/login'>
                 <div className='inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0'>
-                  Login
+                  {state.token? 'Logout':'login'}
                 </div>
               </Link>
             </div>
@@ -93,19 +97,12 @@ const MainPage = () => {
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
           <Switch>
-            <Route path='/profile'>
-              <UserProfile />
-            </Route>
-            <Route path='/list'>
-              <UserList />
-            </Route>
+            <Route path='/profile' render={(props) => state.token? <UserProfile {...props} /> : <Redirect to='/' />} />
+            <Route path='/list' render={(props) => state.token? <UserList {...props} /> : <Redirect to='/' />} />
+            <Route path='/save/:id' render={(props) => state.token ? <SaveForm {...props} /> : <Redirect to='/' />} />
             <Route path='/login'>
               <LoginForm />
             </Route>
-            <Route
-              path='/save/:id'
-              render={(props) => <SaveForm {...props} />}
-            ></Route>
             <Route exact={true} path='/'>
               <LoginForm />
             </Route>

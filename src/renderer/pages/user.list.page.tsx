@@ -1,10 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "../helpers/axios.client";
-
-import { GlobalContext } from "./main.page";
+import { GlobalContext } from '../contexts';
+import { userStoreState, useStoreActions } from "easy-peasy";
 
 const LoginList = () => {
+  // global context
   const {
     state: { table, token },
     changeState
@@ -17,9 +18,17 @@ const LoginList = () => {
       }
     : {};
 
+  // easy peasy global store
+  const users = useStoreState(state => state.users.items)
+  const add = userStoreActions(actions => actions.uers.add)
+
+  // list to hold data
   const [list, setList] = React.useState([]);
+
+  // array to hold field names
   const [tableField, setTableField] = React.useState([]);
 
+  // history for routing
   const history = useHistory();
 
   const fetchFields = async () => {
@@ -47,6 +56,11 @@ const LoginList = () => {
   };
 
   React.useEffect(() => {
+    console.log('[ Testing ]: Global Store');
+    console.log(users);
+    console.log(add);
+
+    console.log('[ Fetching ]: from Api server');
     fetchFields();
     fetchData();
   }, [table]);

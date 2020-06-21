@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
 import skipFields from "../helpers/skipFields";
 import axios from "../helpers/axios.client";
-import { GlobalContext } from "./main.page";
+import { GlobalContext } from '../contexts';
 
 const SaveForm = () => {
   const history = useHistory();

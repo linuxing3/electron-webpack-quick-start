@@ -1,6 +1,6 @@
 import React from "react";
-import { GlobalContext } from "./main.page";
 import axios from "../helpers/axios.client";
+import { GlobalContext } from '../contexts';
 
 const LoginProfile = () => {
 

@@ -1,9 +1,11 @@
 import React from "react";
 import MainPage from "./pages/main.page";
+import { StoreProvider } from 'easy-peasy';
+import store from './store';
 
 const App = () => (
-  <div>
+  <StoreProvider store={store}>
     <MainPage></MainPage>
-  </div>
+  </StoreProvider>
 );
 export default App;
