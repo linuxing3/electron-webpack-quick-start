@@ -18,8 +18,7 @@ export const GlobalContext = createContext<IGlobalContext>({
   state: {
     table: 'users',
     currentItem: {},
-    token: ''
+    token: '',
   },
   changeState: (s: any) => null,
 });
-

@@ -1,5 +1,5 @@
-import React from "react";
-import MainPage from "./pages/main.page";
+import React from 'react';
+import MainPage from './pages/main.page';
 import { StoreProvider } from 'easy-peasy';
 import store from './store';
 

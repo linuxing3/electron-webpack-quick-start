@@ -4,15 +4,15 @@ import games, { GameModel } from './games';
 import auth, { AuthModel } from './auth';
 
 export interface StoreModel {
-  users: UserModel,
-  games: GameModel,
-  auth: AuthModel
+  users: UserModel;
+  games: GameModel;
+  auth: AuthModel;
 }
 export const storeModel: StoreModel = {
   users,
   games,
-  auth
-}
+  auth,
+};
 
 const store = createStore(storeModel);
 (window as any).store = store;

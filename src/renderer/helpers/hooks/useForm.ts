@@ -1,4 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
+
+/**
+ * Type defintion
+ */
 export interface FormHook<T> {
   values: T;
   errors: any;
@@ -17,10 +21,14 @@ export interface IUseFormOptions<T> {
 
 export declare function UseForm<T>(options: IUseFormOptions<T>): FormHook<T>;
 
-const useForm: typeof UseForm = ({
-  initialValues,
-  onSubmit
-}: IUseFormOptions<any>): FormHook<any> => {
+/**
+ * Simple useForm hook function
+ * returns a FormHook object
+ *
+ * @param param [IUserFormOptions]
+ * @returns [FormHook]
+ */
+const useForm: typeof UseForm = ({ initialValues, onSubmit }: IUseFormOptions<any>): FormHook<any> => {
   const [values, setValues] = useState(initialValues || {});
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -45,14 +53,14 @@ const useForm: typeof UseForm = ({
     const { name, value } = target;
     event.persist();
     setValues({ ...values, [name]: value });
-};
+  };
 
   const handleBlur = (event: React.ChangeEvent<any>) => {
     const { target } = event;
     const { name } = target;
     setTouched({ ...touched, [name]: true });
     setErrors({ ...errors });
-};
+  };
 
   const handleSubmit = (event: any) => {
     if (event) event.preventDefault();
@@ -68,7 +76,7 @@ const useForm: typeof UseForm = ({
     onBlur,
     handleChange,
     handleBlur,
-    handleSubmit
+    handleSubmit,
   };
 };
 

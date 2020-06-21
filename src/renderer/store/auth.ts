@@ -6,9 +6,9 @@ export interface AuthModel {
 }
 
 const auth: AuthModel = {
-    authenticator: 'jwt',
-    set: action((state, payload) => {
-      state.authenticator = payload
-    })
-}
+  authenticator: 'jwt',
+  set: action((state, payload) => {
+    state.authenticator = payload;
+  }),
+};
 export default auth;
