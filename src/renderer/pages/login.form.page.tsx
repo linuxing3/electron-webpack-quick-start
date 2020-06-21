@@ -3,27 +3,25 @@ import { useHistory } from "react-router-dom";
 import useForm from "../helpers/hooks/useForm";
 import axios from "../helpers/axios.client";
 import { GlobalContext, IGlobalContext } from '../contexts';
-
-const initialValues = {
-  name: "xingwenju",
-  email: "xingwenju@gmail.com",
-  password: "20090909"
-};
+import { IUser } from "../typings";
 
 const LoginForm = () => {
+  
+  const initialValues: IUser = {
+    name: "xingwenju",
+    email: "xingwenju@gmail.com",
+    password: "20090909"
+  };
+
   const history = useHistory();
 
   const { changeState } = React.useContext<IGlobalContext>(GlobalContext);
 
-  const onSubmit = async (data: any) => {
-    await create(data);
-  };
-
-  const create = async (data: any) => {
+  const create = async (data: IUser) => {
     // Create a new user
     try {
       const response = await axios.post(`/auth/register`, data);
-      const user = await response.data.user;
+      const user: IUser = await response.data.user;
       if (user) { 
         history.push("/login");
         console.log(user);
@@ -31,7 +29,7 @@ const LoginForm = () => {
     } catch (error) {
       const response = await axios.post(`/auth/login`, data);
       if (response.status === 200) {
-        const token = response.data.data.accessToken;
+        const token: string = response.data.data.accessToken;
         if (token) {
           // set token to global context
           changeState({ token: 'bearer '+ token });
@@ -43,8 +41,12 @@ const LoginForm = () => {
     }
   };
 
+  const onSubmit = async (data: IUser) => {
+    await create(data);
+  };
+
   // Hook
-  const { values, handleChange, handleSubmit } = useForm({
+  const { values, handleChange, handleSubmit } = useForm<IUser>({
     initialValues,
     onSubmit: ({ values }) => onSubmit(values)
   });
@@ -104,7 +106,7 @@ const LoginForm = () => {
           </button>
           <a
             className='px-5 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800'
-            href='/recover'
+            href='/'
           >
             Forgot Password?
           </a>

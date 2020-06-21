@@ -6,7 +6,7 @@ import UserProfile from "../pages/user.profile.page";
 import UserList from "../pages/user.list.page";
 import SaveForm from "../pages/save.form.page";
 
-import { GlobalContext, IGlobalState } from '../contexts';
+import { GlobalContext, IGlobalState, IGlobalContext } from '../contexts';
 
 const MainPage = () => {
   /**
@@ -23,7 +23,7 @@ const MainPage = () => {
    * Here are the method of context, which can be called from child component
    */
 
-  const changeState = (s: any) => { 
+  const changeState: IGlobalContext["changeState"] = (s: any) => { 
     const newState: IGlobalState = {...state, ...s};
     setState(newState);
     return newState;

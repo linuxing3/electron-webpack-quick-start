@@ -4,10 +4,14 @@ export interface IGlobalState {
   table: string;
   currentItem: any;
   token: string;
+  theme?: string;
+  locale?: string;
+  setting?: any;
+  target?: string;
 }
 export interface IGlobalContext {
   state: IGlobalState;
-  changeState: any;
+  changeState: (s: any) => IGlobalState;
 }
 
 export const GlobalContext = createContext<IGlobalContext>({
@@ -16,6 +20,6 @@ export const GlobalContext = createContext<IGlobalContext>({
     currentItem: {},
     token: ''
   },
-  changeState: (s: any) => {},
+  changeState: (s: any) => null,
 });
 

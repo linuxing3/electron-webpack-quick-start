@@ -1,7 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import useForm from "../helpers/hooks/useForm";
-import skipFields from "../helpers/skipFields";
+import { pull, omit } from "lodash";
 import axios from "../helpers/axios.client";
 import { GlobalContext, IGlobalContext } from '../contexts';
 // import { pick } from 'lodash';
@@ -20,13 +19,15 @@ const SaveForm = () => {
       }
     : {};
 
-  const [tableField, setTableField] = React.useState([]);
+  const [tableField, setTableField] = React.useState<string[]>([]);
 
   const fetchFields = async () => {
     const url = `/api/v1/fields?table=${table}`;
     const response = await axios.get(url, options);
-    const tableFields = await response.data.data;
-    setTableField(tableFields);
+    const tableFields: string[] = await response.data.data;
+    console.log('[ Fetched ]: table fields');
+    console.log(tableFields);
+    setTableField(pull(tableFields, 'updated_at', 'created_at'));
   };
 
   const update = async () => {
@@ -36,7 +37,7 @@ const SaveForm = () => {
         : `/api/v1/${table}/${currentItem.id}`;
     await axios(url, {
       method: "put",
-      data: JSON.stringify(skipFields(currentItem)),
+      data: JSON.stringify(omit(currentItem, ['created_at', 'updated_at'])),
       ...options
     });
   };

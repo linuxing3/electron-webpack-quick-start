@@ -15,6 +15,6 @@ export const storeModel: StoreModel = {
 }
 
 const store = createStore(storeModel);
-window.store = store;
+(window as any).store = store;
 
 export default store;

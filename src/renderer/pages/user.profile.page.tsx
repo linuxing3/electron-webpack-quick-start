@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "../helpers/axios.client";
 import { GlobalContext, IGlobalContext } from '../contexts';
+import { IUser } from "../typings";
 
 const LoginProfile = () => {
 
@@ -11,7 +12,7 @@ const LoginProfile = () => {
     }
   } : {}
 
-  const [item, setItem] = React.useState({
+  const [item, setItem] = React.useState<IUser>({
     name: "",
     password: "",
     email: ""
@@ -29,7 +30,7 @@ const LoginProfile = () => {
     if (response.status !== 200) {
       console.log("No item found!")
     }
-    const currentItem = await response.data.data;
+    const currentItem: IUser = await response.data.data;
     setItem(currentItem);
   };
 

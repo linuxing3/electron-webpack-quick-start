@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from "../helpers/axios.client";
 import { GlobalContext, IGlobalContext } from '../contexts';
 import { useStoreState, useStoreActions } from "../store/hooks";
+import { pull } from "lodash";
 
 export default function LoginList() {
   // global context
@@ -22,12 +23,12 @@ export default function LoginList() {
   // const users = useStoreState(state => state.users.items)
   // const add = useStoreActions(actions => actions.users.add)
 
-  const [tableNameList, setTableNameList] = React.useState(['users', 'games']);
+  const [tableNameList, setTableNameList] = React.useState<string[]>(['users', 'games']);
   // list to hold data
-  const [list, setList] = React.useState([]);
+  const [list, setList] = React.useState<any[]>([]);
 
   // array to hold field names
-  const [tableField, setTableField] = React.useState([]);
+  const [tableField, setTableField] = React.useState<string[]>(['']);
 
   // history for routing
   const history = useHistory();
@@ -35,10 +36,10 @@ export default function LoginList() {
   const fetchFields = async () => {
     const url = `/api/v1/fields?table=${table}`;
     const response = await axios.get(url, options);
-    const tableFields = await response.data.data;
+    const tableFields: string[] = await response.data.data;
     console.log('[ Fetched ]: table fields');
     console.log(tableFields);
-    setTableField(tableFields);
+    setTableField(pull(tableFields, 'updated_at', 'created_at'));
   };
 
   const fetchData = async () => {
@@ -58,7 +59,7 @@ export default function LoginList() {
     history.push(`/save/${id}`);
   };
 
-  const onChangeTable = (e) => {
+  const onChangeTable = (e: React.ChangeEvent<any>) => {
     changeState({ table: e.target.value });
   }
 
@@ -148,4 +149,4 @@ export default function LoginList() {
       })}
     </div>
   );
-};
+}

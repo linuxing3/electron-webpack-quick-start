@@ -1,9 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
+export interface FormHook<T> {
+  values: T;
+  errors: any;
+  touched: any;
+  onSubmitting: boolean;
+  onBlur: boolean;
+  handleChange: (event: React.ChangeEvent<any>) => void;
+  handleBlur: (event: React.ChangeEvent<any>) => void;
+  handleSubmit: (event: any) => void;
+}
 
-const useForm = ({
+export interface IUseFormOptions<T> {
+  initialValues: T;
+  onSubmit: (data: { values: T; errors: any }) => any;
+}
+
+export declare function UseForm<T>(options: IUseFormOptions<T>): FormHook<T>;
+
+const useForm: typeof UseForm = ({
   initialValues,
   onSubmit
-}) => {
+}: IUseFormOptions<any>): FormHook<any> => {
   const [values, setValues] = useState(initialValues || {});
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
