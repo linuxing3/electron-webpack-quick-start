@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "../helpers/axios.client";
 import { GlobalContext } from '../contexts';
-import { userStoreState, useStoreActions } from "easy-peasy";
+import { useStoreState, useStoreActions } from "easy-peasy";
 
 const LoginList = () => {
   // global context
@@ -19,8 +19,8 @@ const LoginList = () => {
     : {};
 
   // easy peasy global store
-  const users = useStoreState(state => state.users.items)
-  const add = userStoreActions(actions => actions.uers.add)
+  // const users = useStoreState(state => state.users.items)
+  // const add = useStoreActions(actions => actions.users.add)
 
   // list to hold data
   const [list, setList] = React.useState([]);
@@ -32,7 +32,7 @@ const LoginList = () => {
   const history = useHistory();
 
   const fetchFields = async () => {
-    const url = `/api/v1/fields/${table}`;
+    const url = `/api/v1/fields?table=${table}`;
     const response = await axios.get(url, options);
     const tableFields = await response.data.data;
     setTableField(tableFields);
@@ -57,8 +57,8 @@ const LoginList = () => {
 
   React.useEffect(() => {
     console.log('[ Testing ]: Global Store');
-    console.log(users);
-    console.log(add);
+    // console.log(users);
+    // console.log(add);
 
     console.log('[ Fetching ]: from Api server');
     fetchFields();
@@ -67,12 +67,12 @@ const LoginList = () => {
 
   const renderFields = (item) => {
     return (
-      <div className='text-sm'>
+      <div>
         {tableField.map((field) => {
           return (
-            <div key={field.name}>
-              <p className='text-gray-900 leading-none'>{field.name}</p>
-              <p className='text-gray-600'>{item[field.name]}</p>
+            <div key={field}>
+              <p className='text-gray-900 leading-none'>{field}</p>
+              <p className='text-gray-600'>{item[field]}</p>
             </div>
           );
         })}
@@ -102,7 +102,9 @@ const LoginList = () => {
             src='https://tailwindcss.com/img/jonathan.jpg'
             alt='Avatar of Jonathan Reinink'
           />
+        <div key={item.id} className='text-sm'>
           {renderFields(item)}
+        </div>
         </div>
         <div className='px-6 py-4'>
           <span className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'>
@@ -122,7 +124,9 @@ const LoginList = () => {
   return (
     <div className='flex flex-wrap mb-4 justify-center py-30'>
       {list.map((item) => {
-        renderCard(item);
+        return (
+          <div key={item.id}>{renderCard(item)}</div>
+        )
       })}
     </div>
   );

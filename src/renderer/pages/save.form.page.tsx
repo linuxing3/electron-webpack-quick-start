@@ -4,6 +4,7 @@ import useForm from "../helpers/hooks/useForm";
 import skipFields from "../helpers/skipFields";
 import axios from "../helpers/axios.client";
 import { GlobalContext } from '../contexts';
+// import { pick } from 'lodash';
 
 const SaveForm = () => {
   const history = useHistory();
@@ -21,8 +22,9 @@ const SaveForm = () => {
   // const itemStore = window.localStorage.getItem("currentItem");
 
   const [tableField, setTableField] = React.useState([]);
+
   const fetchFields = async () => {
-    const url = `/api/v1/fields/${table}`;
+    const url = `/api/v1/fields?table=${table}`;
     const response = await axios.get(url, options);
     const tableFields = await response.data.data;
     setTableField(tableFields);
@@ -38,12 +40,6 @@ const SaveForm = () => {
       data: JSON.stringify(skipFields(currentItem)),
       ...options
     });
-    clear();
-  };
-
-  const clear = () => {
-    changeState({ currentItem: {} });
-    history.push("/list");
   };
 
   const remove = async () => {
@@ -60,9 +56,13 @@ const SaveForm = () => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    e.persist();
     const newItem = { [name]: value };
-    changeState(newItem);
+    changeState({ currentItem: { ...currentItem, ...newItem }});
+  };
+
+  const clear = () => {
+    changeState({ currentItem: {} });
+    history.push("/list");
   };
 
   React.useEffect(() => {
@@ -74,14 +74,14 @@ const SaveForm = () => {
       <>
         {tableField.map((field) => {
           return (
-            <div key={field.name} className='mb-4'>
+            <div key={field} className='mb-4'>
               <label className='block text-gray-700 text-sm font-bold mb-2'>
-                {field.name}
+                {field}
               </label>
               <input
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                name={field.name}
-                value={currentItem[field.name]}
+                name={field}
+                value={currentItem[field]}
                 onChange={handleChange}
               ></input>
               {/* {errors.name && <span>This field is required</span>} */}
