@@ -1,4 +1,10 @@
 {
   "editor.fontLigatures": true,
-  "deno.enable": false
+  "deno.enable": false,
+  "prettier.packageManager": "yarn",
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "prettier.jsxSingleQuote": true,
+  "prettier.semi": true,
+  "prettier.tabWidth": 2,
 }

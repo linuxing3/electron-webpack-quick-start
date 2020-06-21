@@ -70,10 +70,10 @@ const SaveForm = () => {
       <>
         {tableField.map((field) => {
           return (
-            <div key={field} className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">{field}</label>
+            <div key={field} className='mb-4'>
+              <label className='block text-gray-700 text-sm font-bold mb-2'>{field}</label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 name={field}
                 value={currentItem[field]}
                 onChange={handleChange}
@@ -87,15 +87,15 @@ const SaveForm = () => {
   };
 
   const renderActions = () => (
-    <div className="flex items-center justify-between">
+    <div className='flex items-center justify-between'>
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        type="submit"
+        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+        type='submit'
       >
         update
       </button>
       <button
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
         onClick={remove}
       >
         Remove
@@ -104,8 +104,8 @@ const SaveForm = () => {
   );
 
   return (
-    <div className="flex mb-4 justify-center py-30">
-      <form onSubmit={update} className="w-2/3 bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4">
+    <div className='flex mb-4 justify-center py-30'>
+      <form onSubmit={update} className='w-2/3 bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'>
         {renderInputs()}
         {renderActions()}
       </form>
