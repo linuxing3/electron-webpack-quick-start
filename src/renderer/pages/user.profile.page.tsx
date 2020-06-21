@@ -4,14 +4,12 @@ import axios from "../helpers/axios.client";
 
 const LoginProfile = () => {
 
-  const context = React.useContext(GlobalContext);
-  const options = context.state.token? {
+  const { state: { table, token } } = React.useContext(GlobalContext);
+  const options = token? {
     headers: {
-      'Authorization': context.state.token
+      'Authorization': token
     }
   } : {}
-
-  const [table] = React.useState(context.state.table);
 
   const [item, setItem] = React.useState({
     name: "",

@@ -13,7 +13,7 @@ const initialValues = {
 const LoginForm = () => {
   const history = useHistory();
 
-  const context = React.useContext(GlobalContext);
+  const { changeState } = React.useContext(GlobalContext);
 
   const onSubmit = async (data: any) => {
     await create(data);
@@ -36,7 +36,7 @@ const LoginForm = () => {
           // set token to localstorage
           window.localStorage.setItem("token", 'bearer '+ token);
           // set token to global context
-          context.setState({ state: { ...context.state, token } });
+          changeState({ token: 'bearer '+ token });
           history.push("/profile");
         }
       } else {

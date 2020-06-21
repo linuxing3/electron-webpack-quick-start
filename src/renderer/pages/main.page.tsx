@@ -7,9 +7,12 @@ import UserList from "../pages/user.list.page";
 import SaveForm from "../pages/save.form.page";
 
 export const GlobalContext = React.createContext({
-  state: null,
-  setState: null,
-  token: null
+  state: {
+    table: 'users',
+    currentItem: {},
+    token: ''
+  },
+  changeState: (s: any) => {},
 });
 
 const MainPage = () => {
@@ -20,8 +23,12 @@ const MainPage = () => {
     token: ''
   });
 
+  const changeState = (s: any) => { 
+    setState({...state, ...s});
+  }
+
   return (
-    <GlobalContext.Provider value={{ state, setState }}>
+    <GlobalContext.Provider value={{ state, changeState }}>
       <Router>
         <nav className='flex items-center justify-between flex-wrap bg-teal-500 p-6'>
           <div className='flex items-center flex-shrink-0 text-white mr-6'>

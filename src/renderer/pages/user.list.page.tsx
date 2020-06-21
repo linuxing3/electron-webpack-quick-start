@@ -5,15 +5,14 @@ import axios from "../helpers/axios.client";
 import { GlobalContext } from "./main.page";
 
 const LoginList = () => {
-  const context = React.useContext(GlobalContext);
-  const options = context.state.token? {
+  const { state: { table, token }, changeState } = React.useContext(GlobalContext);
+  const options = token? {
     headers: {
-      'Authorization': context.state.token
+      'Authorization': token
     }
   } : {}
 
   const [list, setList] = React.useState([]);
-  const [table] = React.useState(context.state.table);
 
   const history = useHistory();
 
@@ -23,9 +22,6 @@ const LoginList = () => {
       ? `/api/v1/${table}?table=${table}`
       : `/api/v1/${table}`;
     const response = await axios.get(url, options);
-    if (response.status !== 200) {
-      setList([]);
-    }
     const data = await response.data.data;
     setList(data);
   };
@@ -33,7 +29,7 @@ const LoginList = () => {
   const showDetail = (id: any) => {
     const currentItem = list.filter((i) => i.id === id)[0];
     window.localStorage.setItem("currentItem", JSON.stringify(currentItem) );
-    context.setState({ state: { ...context.state, currentItem } });
+    changeState({ currentItem });
     history.push(`/save/${id}`);
   };
 
