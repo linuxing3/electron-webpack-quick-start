@@ -11,7 +11,7 @@
     "addon:react": "yarn add @babel/preset-react --dev",
     "addon:less": "yarn add less less-loader --dev",
     "addon:sass": "yarn add node-sass sass-loader --dev",
-    "lint": "eslint --fix **/*/*.ts && eslint --fix **/*/*.tsx",
+    "lint": "eslint --fix src/*/*.ts && eslint --fix src/*/*.tsx",
     "tailwind": "tailwindcss build .\\src\\renderer\\tailwind.css -o .\\src\\renderer\\taiwind.generated.css",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
