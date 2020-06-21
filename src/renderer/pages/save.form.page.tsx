@@ -19,6 +19,8 @@ const SaveForm = () => {
       }
     : {};
 
+  const [editing, setEditing] = React.useState<boolean>(true);
+
   const [tableField, setTableField] = React.useState<string[]>([]);
 
   const fetchFields = async () => {
@@ -33,20 +35,43 @@ const SaveForm = () => {
   const update = async () => {
     const url =
       table === 'users' ? `/api/v1/${table}/${currentItem.id}?table=${table}` : `/api/v1/${table}/${currentItem.id}`;
-    await axios(url, {
+    const res = await axios(url, {
       method: 'put',
       data: JSON.stringify(omit(currentItem, ['created_at', 'updated_at'])),
       ...options,
     });
+    return res;
+  };
+
+  const create = async () => {
+    const url = table === 'users' ? `/api/v1/${table}?table=${table}` : `/api/v1/${table}}`;
+    const res = await axios(url, {
+      method: 'post',
+      data: JSON.stringify(omit(currentItem, ['id', 'created_at', 'updated_at'])),
+      ...options,
+    });
+    return res;
+  };
+
+  const save = async () => {
+    let res;
+    if (editing) {
+      res = await update();
+    } else {
+      res = await create();
+    }
+    console.log(res);
+    clear();
   };
 
   const remove = async () => {
     const url =
       table === 'users' ? `/api/v1/${table}/${currentItem.id}?table=${table}` : `/api/v1/${table}/${currentItem.id}`;
-    await axios(url, {
+    const res = await axios(url, {
       method: 'delete',
       ...options,
     });
+    console.log(res);
     clear();
   };
 
@@ -57,7 +82,7 @@ const SaveForm = () => {
   };
 
   const clear = () => {
-    changeState({ currentItem: {} });
+    changeState({ user: 'names', currentItem: {} });
     history.push('/list');
   };
 
@@ -88,27 +113,45 @@ const SaveForm = () => {
 
   const renderActions = () => (
     <div className='flex items-center justify-between'>
-      <button
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-        type='submit'
-      >
-        update
-      </button>
-      <button
-        className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-        onClick={remove}
-      >
-        Remove
-      </button>
+      {editing ? (
+        <>
+          <button
+            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+            type='submit'
+          >
+            Update
+          </button>
+          <button
+            className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+            onClick={remove}
+          >
+            Remove
+          </button>
+        </>
+      ) : (
+        <>
+          <button
+            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+            type='submit'
+          >
+            Create
+          </button>
+        </>
+      )}
     </div>
   );
 
   return (
-    <div className='flex mb-4 justify-center py-30'>
-      <form onSubmit={update} className='w-2/3 bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'>
-        {renderInputs()}
-        {renderActions()}
-      </form>
+    <div className='flex w-2/3 mb-4 justify-center py-30'>
+      <div className='w-full py-4 px-4 align-left' onClick={() => setEditing(!editing)}>
+        <h1 className='text-lg text-green-900 '>{editing ? 'Change To Create' : 'Change to Edit'}</h1>
+      </div>
+      <div className='w-full text-lg text-green-900 py-4 px-4'>
+        <form onSubmit={save} className='bg-white shadow-md rounded px-8 pt-6 pb-8 my-8 mb-4'>
+          {renderInputs()}
+          {renderActions()}
+        </form>
+      </div>
     </div>
   );
 };
