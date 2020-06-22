@@ -41,7 +41,8 @@ const LoginForm = () => {
   };
 
   const onSubmit = async (data: IUser) => {
-    await create(data);
+    const res = await create(data);
+    console.log(res);
   };
 
   // Hook
