@@ -1,5 +1,7 @@
 .DS_Store
 dist/
+build/
+electron_build/
 node_modules/
 thumbs.db
 .idea/

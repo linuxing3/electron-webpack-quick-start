@@ -1,3 +1,16 @@
 {
-  "whiteListedModules": [ "react-router-dom", "@prisma/client"]
+  "title": "Awesome Game Monitor",
+  "staticSourceDirectory": "static",
+  "whiteListedModules": [ "react-router-dom", "@prisma/client"],
+  "main": {
+    "sourceDirectory":"src/main",
+    "webpackConfig": "src/main/webpack.main.addition.js",
+    "extraEntries": [
+      "@/preload.js"
+    ]
+  },
+  "renderer": {
+    "sourceDirectory":"src/renderer",
+    "webpackConfig": "src/main/webpack.renderer.addition.js"
+  }
 }

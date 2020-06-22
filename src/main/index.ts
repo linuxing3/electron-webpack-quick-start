@@ -62,7 +62,7 @@ app.on('activate', () => {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', () => {
-  installExtension(REACT_DEVELOPER_TOOLS);
-  installExtension(REDUX_DEVTOOLS);
+  installExtension(REACT_DEVELOPER_TOOLS).catch((error) => console.log(error));
+  installExtension(REDUX_DEVTOOLS).catch((error) => console.log(error));
   mainWindow = createMainWindow();
 });
