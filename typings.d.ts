@@ -2,6 +2,9 @@
  * Personal Typings
  */
 
+declare module '@apollo/client';
+declare module './helpers/apollo.client';
+
 /**
  * UseForm Hook typeings
  */
