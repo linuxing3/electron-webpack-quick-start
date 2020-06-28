@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import useForm from '../helpers/hooks/useForm';
 import axios from '../helpers/axios.client';
 import { GlobalContext, IGlobalContext } from '../contexts';
-import { IUser } from '../typings';
+import { IUser } from '../../../typings';
 
 const LoginForm = () => {
   const initialValues: IUser = {
