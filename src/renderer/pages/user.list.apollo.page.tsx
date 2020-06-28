@@ -1,38 +1,34 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { GlobalContext, IGlobalContext } from '../contexts';
-import { useQuery, useMutation, gql } from '@apollo/client';
 
-export default function UserApolloList() {
+import { gql } from 'apollo-boost';
+import { useQuery } from '@apollo/react-hooks';
+
+// import { Query } from '@apollo/react-components';
+import { TableTypes } from '../../../typings';
+
+const UserApolloList = () => {
+  // hooks
   // global context
   const {
     state: { table, token },
     changeState,
-  } = React.useContext<IGlobalContext>(GlobalContext);
+  } = useContext<IGlobalContext>(GlobalContext);
 
-  const [tableNameList, setTableNameList] = React.useState<string[]>(['users', 'games']);
-
-  const { loading, error, data } = useQuery(QUERY_DATA);
-  // const [addTodo, { data }] = useMutation(ADD_TODO, { update(cache, { data: {}})});
-  // const [updateTodo] = useMutation(UPDATE_TODO);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  const [tableNameList, setTableNameList] = useState<string[]>(['users', 'games']);
 
   // history for routing
   const history = useHistory();
 
-  const showDetail = (id: any) => {
-    const currentItem = data[table].filter((i) => i.id === id)[0];
-    changeState({ currentItem });
-    history.push(`/save/${id}`);
-  };
+  // FIXME: useQuery钩子调用，因为非法使用钩子，好像是useEffect和useState之间的冲突问题。
+  const { loading, error, data } = useQuery(QUERY_DATA);
 
   const onChangeTable = (e: React.ChangeEvent<any>) => {
     changeState({ table: e.target.value });
   };
 
-  const renderFields = (item) => {
+  const renderFields = (item: TableTypes) => {
     const tableField = Object.keys(item) || ['id'];
     return (
       <div>
@@ -61,7 +57,11 @@ export default function UserApolloList() {
     </div>
   );
 
-  const renderCard = (item) => {
+  const renderCard = (item: TableTypes) => {
+    const showDetail = (id: any) => {
+      changeState({ currentItem: item });
+      history.push(`/save/${id}`);
+    };
     return (
       <div
         onClick={() => showDetail(item.id)}
@@ -98,15 +98,26 @@ export default function UserApolloList() {
     );
   };
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+  // return (
+  //   // <div></div>
+  //   <Query query={QUERY_DATA}>
+  //     {({ error, loading, data }) => {
+  //       return <div>{data}</div>;
+  //     }}
+  //   </Query>
+  // );
+
   return (
     <div className='flex flex-wrap mb-4 justify-center py-30'>
       {renderSelect()}
-      {data[table].map((item) => {
+      {data[table].map((item: TableTypes) => {
         return <div key={item.id}>{renderCard(item)}</div>;
       })}
     </div>
   );
-}
+};
 
 /**
  * TODO: 查询本地缓存，启用分页等功能
@@ -231,3 +242,5 @@ const USERS_SUBSCRIPTION = gql`
   }
 }
  */
+
+export default UserApolloList;

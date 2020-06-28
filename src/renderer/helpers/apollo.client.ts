@@ -1,4 +1,4 @@
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import ApolloClient, { HttpLink, InMemoryCache } from 'apollo-boost';
 // import { WebSocketLink } from '@apollo/link-ws';
 
 const HASURA_TOKEN =
@@ -17,14 +17,12 @@ const HASURA_TOKEN =
 export const prepareApolloClient = (authToken) => {
   return new ApolloClient({
     cache: new InMemoryCache(),
-    link: new HttpLink({
-      headers: {
-        'Hasura-Client-Name': 'hasura-console',
-        'Content-Type': 'applicaiton/json',
-        'basura-collaborator-token': HASURA_TOKEN,
-        Authorization: authToken,
-      },
-      uri: 'https://prepared-pangolin-10.hasura.app/v1/graphql',
-    }),
+    uri: 'https://prepared-pangolin-10.hasura.app/v1/graphql',
+    headers: {
+      'Hasura-Client-Name': 'hasura-console',
+      'Content-Type': 'applicaiton/json',
+      'basura-collaborator-token': HASURA_TOKEN,
+      Authorization: authToken,
+    },
   });
 };

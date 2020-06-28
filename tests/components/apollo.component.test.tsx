@@ -31,7 +31,7 @@ it('renders without error', () => {
 it('should render loading state initially', () => {
   const component = renderer.create(
     <MockedProvider mocks={[]}>
-      <Dog />
+      <Dog name={""}/>
     </MockedProvider>,
   );
 

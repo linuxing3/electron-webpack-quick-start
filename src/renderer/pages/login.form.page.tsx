@@ -14,6 +14,7 @@ const LoginForm = () => {
 
   const history = useHistory();
 
+  // FIXME: here changeState is memoized callback functions
   const { changeState } = React.useContext<IGlobalContext>(GlobalContext);
 
   const create = async (data: IUser) => {
@@ -30,7 +31,7 @@ const LoginForm = () => {
       if (response.status === 200) {
         const token: string = response.data.data.accessToken;
         if (token) {
-          // set token to global context
+          // FIXME: set token to global context will rerender 
           changeState({ token: 'bearer ' + token });
           history.push('/profile');
         }

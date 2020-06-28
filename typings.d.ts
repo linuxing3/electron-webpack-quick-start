@@ -5,6 +5,17 @@
 declare module '@apollo/client';
 declare module './helpers/apollo.client';
 
+export type TableTypes = IUser &
+  IDocument &
+  IUserPromotion &
+  IDocumentType &
+  IDepartment &
+  IProduct &
+  IEmployee &
+  IMember &
+  IProject &
+  IUserMilitant &
+  IVehicle;
 /**
  * UseForm Hook typeings
  */

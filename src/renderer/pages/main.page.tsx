@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { HashRouter as Router, Link, Switch, Route, Redirect } from 'react-router-dom';
 
 import LoginForm from '../pages/login.form.page';
 import UserProfile from '../pages/user.profile.page';
 import UserList from '../pages/user.list.page';
+import ApolloList from '../pages/user.list.apollo.page';
 import SaveForm from '../pages/save.form.page';
 
 import { GlobalContext, IGlobalState, IGlobalContext } from '../contexts';
@@ -21,14 +22,18 @@ const MainPage = () => {
 
   const { table, currentItem, token } = state;
   /**
+   * FIXME: 虽然使用了useCallback进行记忆，仍然出现了重复渲染错误
    * Here are the method of context, which can be called from child component
+   * useCallback to avoid infinite render
    */
-
-  const changeState: IGlobalContext['changeState'] = (s: Partial<IGlobalState>) => {
-    const newState = { ...state, ...s };
-    setState(newState);
-    return newState;
-  };
+  const changeState: IGlobalContext['changeState'] = useCallback(
+    (s: Partial<IGlobalState>) => {
+      const newState = { ...state, ...s };
+      setState(newState);
+      return newState;
+    },
+    [state],
+  );
 
   /**
    * Snapshot state to localStorage
@@ -38,7 +43,7 @@ const MainPage = () => {
     window.localStorage.setItem('table', table);
     window.localStorage.setItem('currentItem', JSON.stringify(currentItem));
     window.localStorage.setItem('token', token);
-  }, [state]);
+  }, [table, currentItem, token]);
 
   return (
     <GlobalContext.Provider value={{ state, changeState }}>
@@ -80,6 +85,11 @@ const MainPage = () => {
                     <Link to='/list'>
                       <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>List</div>
                     </Link>
+                    <Link to='/apollo'>
+                      <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
+                        Apollo
+                      </div>
+                    </Link>
                     <Link to='/table'>
                       <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
                         Detail
@@ -104,6 +114,7 @@ const MainPage = () => {
           <Switch>
             <Route path='/profile' render={(props) => (token ? <UserProfile {...props} /> : <Redirect to='/' />)} />
             <Route path='/list' render={(props) => (token ? <UserList {...props} /> : <Redirect to='/' />)} />
+            <Route path='/apollo' render={(props) => (token ? <ApolloList {...props} /> : <Redirect to='/' />)} />
             <Route path='/save/:id' render={(props) => (token ? <SaveForm {...props} /> : <Redirect to='/' />)} />
             <Route path='/login'>
               <LoginForm />
