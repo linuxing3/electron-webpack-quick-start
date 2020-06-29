@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import useForm from '../helpers/hooks/useForm';
 import axios from '../helpers/axios.client';
@@ -14,8 +14,9 @@ const LoginForm = () => {
 
   const history = useHistory();
 
-  // FIXME: here changeState is memoized callback functions
+  // FIXME: here changeState is memoized
   const { changeState } = useGlobal();
+  useMemo(() => changeState(), [changeState]);
 
   const create = async (data: IUser) => {
     // Create a new user

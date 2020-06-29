@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext, useEffect, ReactNode } from 'react';
 
 export interface IGlobalState {
   table: string;
@@ -21,7 +21,7 @@ export const GlobalContext = createContext({ state: defaultGlobalState, changeSt
  * @example
  * <GlobalContextProvider state={state}></GlobalContextProvider>
  */
-export const GlobalContextProvider = ({ children, state }) => {
+export const GlobalContextProvider = ({ children, state }: { children: ReactNode; state: IGlobalState }) => {
   const [globalState, setGlobalState] = useState<IGlobalState>(state || defaultGlobalState);
 
   const changeState = (updateValue: Partial<IGlobalState>) => {

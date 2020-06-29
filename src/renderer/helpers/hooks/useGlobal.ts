@@ -7,7 +7,7 @@ import { GlobalContext } from '../../contexts/index';
  * Any component do you want to toggle the theme from
  * const { state, changeState } = useGlobal();
  * const somefn = () => {
- *    changeState({ name: "light"});
+ *    changeState({ name: "game"});
  * }
  */
 export default () => {
