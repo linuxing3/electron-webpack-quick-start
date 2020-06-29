@@ -21,7 +21,7 @@ export default function LoginList() {
 
   // easy peasy global store
   const users = useStoreState((state) => state.users.items);
-  // const add = useStoreActions(actions => actions.users.add)
+  const add = useStoreActions((actions) => actions.users.add);
 
   const [tableNameList, setTableNameList] = React.useState<string[]>(['users', 'games']);
   // list to hold data
