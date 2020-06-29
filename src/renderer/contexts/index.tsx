@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 
 export interface IGlobalState {
   table: string;
@@ -7,7 +7,7 @@ export interface IGlobalState {
   token: string;
 }
 
-const defaultGlobalState: IGlobalState = {
+export const defaultGlobalState: IGlobalState = {
   table: 'users',
   currentItem: {},
   token: '',
@@ -27,6 +27,19 @@ export const GlobalContextProvider = ({ children, state }) => {
   const changeState = (updateValue: Partial<IGlobalState>) => {
     setGlobalState({ ...globalState, ...updateValue });
   };
+
+  // const saveState = (state: IGlobalState) => {
+  //   setGlobalState(state);
+  // };
+
+  /**
+   * Snapshot state to localStorage
+   */
+  useEffect(() => {
+    window.localStorage.setItem('table', globalState.table);
+    window.localStorage.setItem('currentItem', JSON.stringify(globalState.currentItem));
+    window.localStorage.setItem('token', globalState.token);
+  });
 
   return <GlobalContext.Provider value={{ state: globalState, changeState }}>{children}</GlobalContext.Provider>;
 };

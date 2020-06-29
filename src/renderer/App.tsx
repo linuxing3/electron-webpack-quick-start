@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { GlobalContext, IGlobalContext } from './contexts';
+import useGlobal from './helpers/hooks/useGlobal';
 
 import { StoreProvider } from 'easy-peasy';
 import store from './store';
@@ -7,13 +7,13 @@ import store from './store';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { prepareApolloClient } from './helpers/apollo.client';
 
-// import MainPage from './pages/main.page';
-import MainPage from './pages/main';
+import MainPage from './pages/main.page';
+// import MainPage from './pages/main';
 
 const App = () => {
   const {
     state: { token },
-  } = useContext<IGlobalContext>(GlobalContext);
+  } = useGlobal();
 
   const client = prepareApolloClient(token);
   (window as any).apolloclient = client;

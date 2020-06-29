@@ -6,27 +6,10 @@ import UserProfile from '../pages/user.profile.page';
 import UserList from '../pages/user.list.page';
 import ApolloList from '../pages/user.list.apollo.page';
 import SaveForm from '../pages/save.form.page';
-import useGlobal from '../helpers/hooks/useGlobal';
 
-import { GlobalContextProvider, IGlobalState } from '../contexts';
+import { GlobalContextProvider, defaultGlobalState as state } from '../contexts';
 
 const MainPage = () => {
-  /**
-   * initial values of global context
-   */
-  const { state } = useGlobal();
-  const { table, currentItem, token } = state;
-
-  /**
-   * Snapshot state to localStorage
-   */
-
-  useEffect(() => {
-    window.localStorage.setItem('table', table);
-    window.localStorage.setItem('currentItem', JSON.stringify(currentItem));
-    window.localStorage.setItem('token', token);
-  }, [table, currentItem, token]);
-
   return (
     <GlobalContextProvider state={{ state }}>
       <Router>
@@ -57,7 +40,7 @@ const MainPage = () => {
                 <Link to='/'>
                   <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>Home</div>
                 </Link>
-                {token ? (
+                {state.token ? (
                   <>
                     <Link to='/profile'>
                       <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
@@ -94,10 +77,13 @@ const MainPage = () => {
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
           <Switch>
-            <Route path='/profile' render={(props) => (token ? <UserProfile {...props} /> : <Redirect to='/' />)} />
-            <Route path='/list' render={(props) => (token ? <UserList {...props} /> : <Redirect to='/' />)} />
-            <Route path='/apollo' render={(props) => (token ? <ApolloList {...props} /> : <Redirect to='/' />)} />
-            <Route path='/save/:id' render={(props) => (token ? <SaveForm {...props} /> : <Redirect to='/' />)} />
+            <Route
+              path='/profile'
+              render={(props) => (state.token ? <UserProfile {...props} /> : <Redirect to='/' />)}
+            />
+            <Route path='/list' render={(props) => (state.token ? <UserList {...props} /> : <Redirect to='/' />)} />
+            <Route path='/apollo' render={(props) => (state.token ? <ApolloList {...props} /> : <Redirect to='/' />)} />
+            <Route path='/save/:id' render={(props) => (state.token ? <SaveForm {...props} /> : <Redirect to='/' />)} />
             <Route path='/login'>
               <LoginForm />
             </Route>

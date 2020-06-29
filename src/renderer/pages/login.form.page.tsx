@@ -31,7 +31,7 @@ const LoginForm = () => {
       if (response.status === 200) {
         const token: string = response.data.data.accessToken;
         if (token) {
-          // FIXME: set token to global context will rerender 
+          // FIXME: set token to global context will rerender
           changeState({ token: 'bearer ' + token });
           history.push('/profile');
         }
