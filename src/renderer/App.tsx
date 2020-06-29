@@ -7,7 +7,8 @@ import store from './store';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { prepareApolloClient } from './helpers/apollo.client';
 
-import MainPage from './pages/main.page';
+// import MainPage from './pages/main.page';
+import MainPage from './pages/main';
 
 const App = () => {
   const {

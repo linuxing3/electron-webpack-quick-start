@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { HashRouter as Router, Link, Switch, Route, Redirect } from 'react-router-dom';
 
 import LoginForm from '../pages/login.form.page';
@@ -21,6 +21,8 @@ const MainPage = () => {
   });
 
   const { table, currentItem, token } = state;
+
+  const stateMemo = useMemo(() => state, [state]);
   /**
    * FIXME: 虽然使用了useCallback进行记忆，仍然出现了重复渲染错误
    * Here are the method of context, which can be called from child component
