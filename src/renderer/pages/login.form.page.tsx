@@ -15,8 +15,8 @@ const LoginForm = () => {
   const history = useHistory();
 
   // FIXME: here changeState is memoized
-  const { changeState } = useGlobal();
-  useMemo(() => changeState(), [changeState]);
+  // const { changeState } = useGlobal();
+  // useMemo(() => changeState(), []);
 
   const create = async (data: IUser) => {
     // Create a new user
@@ -33,7 +33,7 @@ const LoginForm = () => {
         const token: string = response.data.data.accessToken;
         if (token) {
           // FIXME: set token to global context will rerender
-          changeState({ token: 'bearer ' + token });
+          // changeState({ token: 'bearer ' + token });
           history.push('/profile');
         }
       } else {

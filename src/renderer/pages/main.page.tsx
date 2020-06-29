@@ -7,11 +7,11 @@ import UserList from '../pages/user.list.page';
 import ApolloList from '../pages/user.list.apollo.page';
 import SaveForm from '../pages/save.form.page';
 
-import { GlobalContextProvider, defaultGlobalState as state } from '../contexts';
+import { GlobalContextProvider, defaultGlobalState } from '../contexts';
 
 const MainPage = () => {
   return (
-    <GlobalContextProvider state={{ state }}>
+    <GlobalContextProvider state={defaultGlobalState}>
       <Router>
         <nav className='flex items-center justify-between flex-wrap bg-teal-500 p-6'>
           <div className='flex items-center flex-shrink-0 text-white mr-6'>
