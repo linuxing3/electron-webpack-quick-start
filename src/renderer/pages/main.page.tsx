@@ -6,36 +6,16 @@ import UserProfile from '../pages/user.profile.page';
 import UserList from '../pages/user.list.page';
 import ApolloList from '../pages/user.list.apollo.page';
 import SaveForm from '../pages/save.form.page';
+import useGlobal from '../helpers/hooks/useGlobal';
 
-import { GlobalContext, IGlobalState, IGlobalContext } from '../contexts';
+import { GlobalContextProvider, IGlobalState } from '../contexts';
 
 const MainPage = () => {
   /**
    * initial values of global context
    */
-
-  const [state, setState] = useState<IGlobalState>({
-    table: 'users',
-    currentItem: {},
-    token: '',
-  });
-
+  const { state } = useGlobal();
   const { table, currentItem, token } = state;
-
-  const stateMemo = useMemo(() => state, [state]);
-  /**
-   * FIXME: 虽然使用了useCallback进行记忆，仍然出现了重复渲染错误
-   * Here are the method of context, which can be called from child component
-   * useCallback to avoid infinite render
-   */
-  const changeState: IGlobalContext['changeState'] = useCallback(
-    (s: Partial<IGlobalState>) => {
-      const newState = { ...state, ...s };
-      setState(newState);
-      return newState;
-    },
-    [state],
-  );
 
   /**
    * Snapshot state to localStorage
@@ -48,7 +28,7 @@ const MainPage = () => {
   }, [table, currentItem, token]);
 
   return (
-    <GlobalContext.Provider value={{ state, changeState }}>
+    <GlobalContextProvider state={{ state }}>
       <Router>
         <nav className='flex items-center justify-between flex-wrap bg-teal-500 p-6'>
           <div className='flex items-center flex-shrink-0 text-white mr-6'>
@@ -127,7 +107,7 @@ const MainPage = () => {
           </Switch>
         </div>
       </Router>
-    </GlobalContext.Provider>
+    </GlobalContextProvider>
   );
 };
 

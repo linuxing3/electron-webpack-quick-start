@@ -2,8 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import useForm from '../helpers/hooks/useForm';
 import axios from '../helpers/axios.client';
-import { GlobalContext, IGlobalContext } from '../contexts';
 import { IUser } from '../../../typings';
+import useGlobal from '../helpers/hooks/useGlobal';
 
 const LoginForm = () => {
   const initialValues: IUser = {
@@ -15,7 +15,7 @@ const LoginForm = () => {
   const history = useHistory();
 
   // FIXME: here changeState is memoized callback functions
-  const { changeState } = React.useContext<IGlobalContext>(GlobalContext);
+  const { changeState } = useGlobal();
 
   const create = async (data: IUser) => {
     // Create a new user
