@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Link, Switch, Route, Redirect } from 'react-router-dom';
 
 import LoginForm from '../pages/login.form.page';
@@ -7,11 +7,42 @@ import UserList from '../pages/user.list.page';
 import ApolloList from '../pages/user.list.apollo.page';
 import SaveForm from '../pages/save.form.page';
 
-import { GlobalContextProvider, defaultGlobalState } from '../contexts';
+import { GlobalContext, IGlobalState } from '../contexts';
 
 const MainPage = () => {
+  /**
+   * initial values of global context
+   */
+
+  const [state, setState] = useState<IGlobalState>({
+    table: 'users',
+    currentItem: {},
+    token: '',
+  });
+
+  const { table, currentItem, token } = state;
+  /**
+   * Here are the method of context, which can be called from child component
+   */
+
+  const changeState = (s: Partial<IGlobalState>) => {
+    const newState = { ...state, ...s };
+    setState(newState);
+    return newState;
+  };
+
+  /**
+   * Snapshot state to localStorage
+   */
+
+  useEffect(() => {
+    window.localStorage.setItem('table', table);
+    window.localStorage.setItem('currentItem', JSON.stringify(currentItem));
+    window.localStorage.setItem('token', token);
+  }, [state]);
+
   return (
-    <GlobalContextProvider state={defaultGlobalState}>
+    <GlobalContext.Provider value={{ state, changeState }}>
       <Router>
         <nav className='flex items-center justify-between flex-wrap bg-teal-500 p-6'>
           <div className='flex items-center flex-shrink-0 text-white mr-6'>
@@ -40,7 +71,7 @@ const MainPage = () => {
                 <Link to='/'>
                   <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>Home</div>
                 </Link>
-                {state.token ? (
+                {token ? (
                   <>
                     <Link to='/profile'>
                       <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
@@ -51,9 +82,7 @@ const MainPage = () => {
                       <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>List</div>
                     </Link>
                     <Link to='/apollo'>
-                      <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
-                        Apollo
-                      </div>
+                      <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>Apollo</div>
                     </Link>
                     <Link to='/table'>
                       <div className='block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4'>
@@ -77,13 +106,10 @@ const MainPage = () => {
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
           <Switch>
-            <Route
-              path='/profile'
-              render={(props) => (state.token ? <UserProfile {...props} /> : <Redirect to='/' />)}
-            />
-            <Route path='/list' render={(props) => (state.token ? <UserList {...props} /> : <Redirect to='/' />)} />
-            <Route path='/apollo' render={(props) => (state.token ? <ApolloList {...props} /> : <Redirect to='/' />)} />
-            <Route path='/save/:id' render={(props) => (state.token ? <SaveForm {...props} /> : <Redirect to='/' />)} />
+            <Route path='/profile' render={(props) => (token ? <UserProfile {...props} /> : <Redirect to='/' />)} />
+            <Route path='/list' render={(props) => (token ? <UserList {...props} /> : <Redirect to='/' />)} />
+            <Route path='/list' render={(props) => (token ? <ApolloList {...props} /> : <Redirect to='/' />)} />
+            <Route path='/save/:id' render={(props) => (token ? <SaveForm {...props} /> : <Redirect to='/' />)} />
             <Route path='/login'>
               <LoginForm />
             </Route>
@@ -93,7 +119,7 @@ const MainPage = () => {
           </Switch>
         </div>
       </Router>
-    </GlobalContextProvider>
+    </GlobalContext.Provider>
   );
 };
 

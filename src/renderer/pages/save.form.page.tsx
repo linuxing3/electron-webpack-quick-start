@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { pull, omit } from 'lodash';
 import axios from '../helpers/axios.client';
-import { GlobalContext, IGlobalContext } from '../contexts';
+import { GlobalContext } from '../contexts';
 // import { pick } from 'lodash';
 
 const SaveForm = () => {
@@ -10,7 +10,7 @@ const SaveForm = () => {
   const {
     state: { table, currentItem, token },
     changeState,
-  } = React.useContext<IGlobalContext>(GlobalContext);
+  } = React.useContext(GlobalContext);
   const options = token
     ? {
         headers: {

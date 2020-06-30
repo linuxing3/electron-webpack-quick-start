@@ -1,12 +1,12 @@
 import React from 'react';
 import axios from '../helpers/axios.client';
-import { GlobalContext, IGlobalContext } from '../contexts';
+import { GlobalContext } from '../contexts';
 import { IUser } from '../../../typings';
 
 const LoginProfile = () => {
   const {
     state: { table, token },
-  } = React.useContext<IGlobalContext>(GlobalContext);
+  } = React.useContext(GlobalContext);
   const options = token
     ? {
         headers: {

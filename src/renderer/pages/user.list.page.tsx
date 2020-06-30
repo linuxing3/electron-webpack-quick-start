@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from '../helpers/axios.client';
-import { GlobalContext, IGlobalContext } from '../contexts';
+import { GlobalContext } from '../contexts';
 import { useStoreState, useStoreActions } from '../store/hooks';
 import { pull } from 'lodash';
 
@@ -10,7 +10,7 @@ export default function LoginList() {
   const {
     state: { table, token },
     changeState,
-  } = React.useContext<IGlobalContext>(GlobalContext);
+  } = React.useContext(GlobalContext);
   const options = token
     ? {
         headers: {

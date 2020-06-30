@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { GlobalContext, IGlobalContext } from '../contexts';
+import { GlobalContext } from '../contexts';
 
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
@@ -14,7 +14,7 @@ const UserApolloList = () => {
   const {
     state: { table, token },
     changeState,
-  } = useContext<IGlobalContext>(GlobalContext);
+  } = useContext(GlobalContext);
 
   const [tableNameList, setTableNameList] = useState<string[]>(['users', 'games']);
 
@@ -23,6 +23,7 @@ const UserApolloList = () => {
 
   // FIXME: useQuery钩子调用，因为非法使用钩子，好像是useEffect和useState之间的冲突问题。
   const { loading, error, data } = useQuery(QUERY_DATA);
+  console.log(data);
 
   const onChangeTable = (e: React.ChangeEvent<any>) => {
     changeState({ table: e.target.value });

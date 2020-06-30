@@ -1,5 +1,5 @@
 import React from 'react';
-import { MockedProvider } from '@apollo/client/testing';
+import { MockedProvider } from 'apollo-client-testing';
 import renderer from 'react-test-renderer';
 
 // The component AND the query need to be exported

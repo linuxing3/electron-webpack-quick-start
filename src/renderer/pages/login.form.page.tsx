@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import useForm from '../helpers/hooks/useForm';
 import axios from '../helpers/axios.client';
+import { GlobalContext } from '../contexts';
 import { IUser } from '../../../typings';
-import useGlobal from '../helpers/hooks/useGlobal';
 
 const LoginForm = () => {
   const initialValues: IUser = {
@@ -14,9 +14,9 @@ const LoginForm = () => {
 
   const history = useHistory();
 
-  // FIXME: here changeState is memoized
-  // const { changeState } = useGlobal();
-  // useMemo(() => changeState(), []);
+  const { changeState } = React.useContext(GlobalContext);
+
+  useMemo(() => changeState, []);
 
   const create = async (data: IUser) => {
     // Create a new user
@@ -32,8 +32,8 @@ const LoginForm = () => {
       if (response.status === 200) {
         const token: string = response.data.data.accessToken;
         if (token) {
-          // FIXME: set token to global context will rerender
-          // changeState({ token: 'bearer ' + token });
+          // set token to global context
+          changeState({ token: 'bearer ' + token });
           history.push('/profile');
         }
       } else {

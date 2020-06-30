@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { gql } from 'apollo-boost';
+import { useQuery } from '@apollo/react-hooks';
 
 // Make sure the query is also exported -- not just the component
 export const GET_DOG_QUERY = gql`
